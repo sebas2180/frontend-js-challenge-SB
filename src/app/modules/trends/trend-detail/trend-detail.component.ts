@@ -22,7 +22,6 @@ export class TrendDetailComponent {
   }
 
   deleteTrend(trend: Trend) {
-    console.log("trend: ", trend);
     this.store.dispatch(deleteOneTrend({trendId: trend.id}));
   }
   editTrend(trend: Trend) {

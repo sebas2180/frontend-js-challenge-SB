@@ -6,9 +6,9 @@ import { SidenavEndService } from 'src/app/modules/sidenav-end/services/sidenav-
 import { createOneTrend, updateOneTrend } from '../store/actions/trend-crud.actions';
 import { TrendRequest } from '../models/trend-request.model';
 import { Trend } from '../models/trend.model';
-import { updateLoaderUpdateState } from '../store/actions/trends-list-page.actions';
+import { updateLoaderUpdateState, updateMessageTrendState } from '../store/actions/trends-list-page.actions';
 import { Subscription } from 'rxjs';
-import { selectIsLoadingUpdateState } from '../store/reducers';
+import { selectIsLoadingUpdateState, selectMessageState } from '../store/reducers';
 
 @Component({
     selector: 'app-trend-edit',
@@ -26,6 +26,8 @@ export class TrendEditComponent implements OnInit, OnDestroy {
     title: new FormControl(null),
     body: new FormControl(null),
   })
+
+  messageState$ = this.store.select(selectMessageState);
 
   isLoadingUpdate$ = this.store.select(selectIsLoadingUpdateState);
   isLoadingUpdate!: boolean;
@@ -97,8 +99,12 @@ export class TrendEditComponent implements OnInit, OnDestroy {
   }
   private initSubscriptions() : void {
     this.subscriptions.push(
-      this.isLoadingUpdate$.subscribe((loader) => {
+      this.isLoadingUpdate$.subscribe((loader: boolean) => {
         this.isLoadingUpdate = loader;
+      }),
+      this.messageState$.subscribe((message: string) => {
+        this.store.dispatch(updateMessageTrendState({ msg: null }));
+        console.log('message', message);
       }),
     );
   }

@@ -9,6 +9,7 @@ export const trendsFeatureKey = 'trends';
 export interface State extends EntityState<Trend> {
   selectedTrend: Trend | null;
   loaderUpdate: boolean,
+  message: string,
 }
 
 
@@ -17,6 +18,7 @@ export const adapter: EntityAdapter<Trend> = createEntityAdapter<Trend>();
 export const initialState: State = adapter.getInitialState({
   selectedTrend: null,
   loaderUpdate: false,
+  message: null,
 });
 
 export const trendsReducer = createReducer(
@@ -38,24 +40,32 @@ export const trendsReducer = createReducer(
   }),
   on(TrendsApiActions.deleteOneTrendSuccess, (state, { response }): State => {
     if (response.success) {
-      console.log('Se ha podido eliminar el elemento');
-      return { ...state, selectedTrend: null };
+      const msg = 'Eliminado exitoso';
+      return { ...state, selectedTrend: null, message: msg };
     } else {
-      console.log('No se ha podido eliminar el elemento');
-      return { ...state, loaderUpdate: false };
+      const msg = 'Error al eliminar el elemento';
+      console.log('msg',msg);
+      return { ...state, loaderUpdate: false, message: msg };
     }
   }),
   on(TrendsApiActions.updateOneTrendError, (state, { error }): State => {
-      console.error('Se ha podido actualizar el elemento');
-      return { ...state, loaderUpdate: false };
+    const msg = 'Error al actualizar';
+      return { ...state, loaderUpdate: false, message: msg };
   }),
   on(TrendsApiActions.updateOneTrendSuccess, (state, { response }): State => {
-    console.log('Se actualizó el elemento con éxito.');
-    return { ...state, loaderUpdate: false };
+    const msg = 'Actualización exitosa';
+    return { ...state, loaderUpdate: false, message: msg};
   }),
   on(
     TrendsListPageActions.updateLoaderUpdateState,
-    (state, { isLoadingUpdate: loaderUpdate}): State => ({ ...state, loaderUpdate })
+    (state, { isLoadingUpdate: loaderUpdate}): State => {
+      const msg = 'Actualización exitosa';
+      return ({ ...state, loaderUpdate, message: msg })
+    }
+  ),
+  on(
+    TrendsListPageActions.updateMessageTrendState,
+    (state, { msg: message}): State => ({ ...state, message })
   )
 );
 
@@ -80,4 +90,10 @@ export const selectTrendTotal = selectTotal;
 // select loader trend state
 export const selectIsLoadingUpdateState = (state: State) => {
   return state['trends'].loaderUpdate
+};
+
+// select loader trend state
+export const selectMessageState = (state: State) => {
+  console.log(state);
+  return state.message
 };

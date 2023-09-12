@@ -21,7 +21,7 @@ import { MatInputModule } from '@angular/material/input';
   declarations: [
     TrendsListComponent,
     TrendEditComponent,
-     TrendDetailComponent
+    TrendDetailComponent,
     ],
   imports: [
     CommonModule,
