@@ -6,10 +6,14 @@ import { routerNavigationAction } from '@ngrx/router-store';
 
 import * as TrendsApiActions from '../actions/trends-api.actions';
 import * as TrendsListPageActions from '../actions/trends-list-page.actions';
-import { TrendService } from '../../trend.service';
+import * as TrendsCrudActions from '../actions/trend-crud.actions';
+import { TrendService } from '../../services/trend.service';
+
 
 @Injectable()
 export class TrendsEffects {
+  constructor(private actions$: Actions, private trendService: TrendService) {}
+
   loadTrends$ = createEffect(() => {
     return this.actions$.pipe(
       ofType(TrendsListPageActions.loadTrends),
@@ -26,7 +30,7 @@ export class TrendsEffects {
     return this.actions$.pipe(
       ofType(routerNavigationAction),
       filter(({ payload }) => /^\/trends\/[a-z0-9]+$/.test(payload.event.url)),
-      map(({ payload }) => payload.routerState.root.firstChild?.params['id']),
+      map(({ payload }) => payload.routerState.url.toString().split('/trends/')[1]),
       switchMap((id: string) =>
         this.trendService.getOne(id).pipe(
           map((trend) => TrendsApiActions.loadOneTrendSuccess({ trend })),
@@ -36,5 +40,14 @@ export class TrendsEffects {
     );
   });
 
-  constructor(private actions$: Actions, private trendService: TrendService) {}
+  deleteOneTrend$ = createEffect(() => {
+    return this.actions$.pipe(
+      ofType(TrendsCrudActions.deleteOneTrend),
+      switchMap((trendId) =>
+      this.trendService.deleteOne(trendId.trendiId).pipe(
+      map((response) => TrendsApiActions.deleteOneTrendSuccess({ response })),
+      )
+    )
+    );
+  });
 }

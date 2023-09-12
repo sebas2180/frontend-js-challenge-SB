@@ -1,16 +1,4 @@
-// Based on https://codepen.io/salazarr-js/pen/aJdmvw
-import { Component } from '@angular/core';
-
-@Component({
-  selector: 'app-progress-bar',
-  template: `
-    <div class="progress">
-      <div class="indeterminate"></div>
-    </div>
-  `,
-  styles: [
-    `
-      @import 'settings/variables';
+@import 'settings/variables';
 
       :host {
         display: inline-block;
@@ -82,7 +70,3 @@ import { Component } from '@angular/core';
           right: -8%;
         }
       }
-    `,
-  ],
-})
-export class AppProgressBarComponent {}

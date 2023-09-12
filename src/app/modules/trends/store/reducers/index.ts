@@ -32,7 +32,16 @@ export const trendsReducer = createReducer(
   ),
   on(TrendsApiActions.loadOneTrendError, (state): State => {
     return { ...state, selectedTrend: null };
-  })
+  }),
+  on(TrendsApiActions.deleteOneTrendSuccess, (state, { response }): State => {
+    if (response.success) {
+      console.log('Se ha podido eliminar el elemento');
+      return { ...state, selectedTrend: null };
+    } else {
+      console.log('No se ha podido eliminar el elemento');
+      return { ...state };
+    }
+  }),
 );
 
 export const selectSelectedTrend = (state: State) => state.selectedTrend;

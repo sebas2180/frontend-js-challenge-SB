@@ -3,9 +3,9 @@ const avantioAPIHost =  'https://challenge.avantio.pro';
 
 export const environment = {
   name: 'default',
-  production: true,
+  production: false,
   avantioAPIAuthToken: 'ppr2kymzk75od7wtq0up2',
-  hmr: false,
+  hmr: true,
   avantioAPIHost: avantioAPIHost,
   app:'challenge-avantio',
   app_name:'Challenge-Avantio',
@@ -14,4 +14,6 @@ export const environment = {
 
   // Common
   getAllUrl:  `${avantioAPIHost}/v1/trends`,
+  deleteTrend:  `${avantioAPIHost}/v1/trends`,
+  updateTrend:  `${avantioAPIHost}/v1/trends`,
 };

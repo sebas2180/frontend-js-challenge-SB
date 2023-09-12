@@ -1,0 +1,20 @@
+<button
+  class="app-btn app-btn-normal size-regular"
+  [ngClass]="{
+    'app-btn-disabled': disabled,
+    'app-btn-secondary': secondary,
+    'app-custom-color': colorCustom,
+    'app-custom-color-secondary': colorCustom && secondary,
+    'app-loading': loading}"
+  [disabled]="disabled || loading"
+  [style.width.px]="size"
+  [style.height.px]="sizeHeight"
+>
+  <span *ngIf="text && !loading" [style.paddingLeft.px]="padding" [style.paddingRight.px]="padding">
+    {{ text }}
+  </span>
+  <div *ngIf="loading" class="d-flex align-items-center spinner">
+    <mat-spinner class="uploader-status"></mat-spinner>
+    <span class="ms-2">{{ 'Cargando' }}...</span>
+  </div>
+</button>

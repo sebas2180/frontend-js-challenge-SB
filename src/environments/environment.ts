@@ -1,11 +1,13 @@
 // This file can be replaced during build by using the `fileReplacements` array.
 // `ng build` replaces `environment.ts` with `environment.prod.ts`.
 // The list of file replacements can be found in `angular.json`.
+import { environment as defaultEnvironment } from './environment.default';
 
 export const environment = {
+  ...defaultEnvironment,
   production: false,
   avantioAPIHost: 'https://challenge.avantio.pro',
-  avantioAPIAuthToken: '',
+  avantioAPIAuthToken: 'ppr2kymzk75od7wtq0up2',
 };
 
 /*

@@ -1,0 +1,50 @@
+<mat-sidenav-container (backdropClick)="onBackdropClick()">
+  <mat-sidenav
+      class="sidenav-end"
+      mode="over"
+      #sidenavend
+      position="end"
+      [opened]="openedSidenavEnd"
+      (closedStart)="closeSidenavEnd()"
+  >
+    <app-sidenav-end (overlayAction)="actionOverlay($event)"></app-sidenav-end>
+	</mat-sidenav>
+
+	<mat-sidenav-content>
+    <div class="page-content">
+    <app-progress-bar
+    *ngIf="(isLoading$ | async)"
+    class="app-progress-bar"
+    ></app-progress-bar>
+    <header class="app-header">
+    <a [routerLink]="'/'">
+      <img
+        *ngIf="isSmallScreen$ | async"
+        class="app-logo"
+        src="assets/Logos/aTrendsPRO.svg"
+        alt="Logo Avantio Trends PRO"
+      />
+    </a>
+    <div class="app-current-date">
+      <span>{{ currentDate | date: 'dd MMMM yyyy' }}</span>
+    </div>
+    </header>
+    <nav class="app-navigation">
+      <app-menu-small *ngIf="isSmallScreen"></app-menu-small>
+      <app-menu-medium *ngIf="isMediumScreen"></app-menu-medium>
+      <app-menu-large *ngIf="isLargeScreen"></app-menu-large>
+    </nav>
+    <main class="app-main-content">
+      <router-outlet></router-outlet>
+      <app-button-plus (click)="createTrend()"></app-button-plus>
+    </main>
+    </div>
+  </mat-sidenav-content>
+</mat-sidenav-container>
+
+<!--
+Copyright Google LLC All Rights Reserved.
+
+Use of this source code is governed by an MIT-style license that can be
+found in the LICENSE file at https://angular.io/license
+-->

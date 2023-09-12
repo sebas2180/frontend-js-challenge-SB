@@ -2,39 +2,7 @@ import { Component } from '@angular/core';
 
 @Component({
   selector: 'app-menu-medium',
-  template: `
-    <a class="app-logo menu__logo" routerLink="/">
-      <img src="assets/Iconos/Favicon/favicon_avantio.svg" alt="Icono Avantio" />
-    </a>
-
-    <a
-      [routerLink]="['/trends', { provider: 'elmundo' }]"
-      routerLinkActive="router-link-active"
-      [routerLinkActiveOptions]="{
-        matrixParams: 'exact',
-        queryParams: 'exact',
-        paths: 'exact',
-        fragment: 'exact'
-      }"
-      class="menu__option"
-    >
-      <img src="assets/Iconos/Favicon/favicon_el_pais.svg" alt="Icono de EL PAÍS" />
-    </a>
-
-    <a
-      [routerLink]="['/trends', { provider: 'elpais' }]"
-      routerLinkActive="router-link-active"
-      [routerLinkActiveOptions]="{
-        matrixParams: 'exact',
-        queryParams: 'exact',
-        paths: 'exact',
-        fragment: 'exact'
-      }"
-      class="menu__option"
-    >
-      <img src="assets/Iconos/Favicon/favicon_el_mundo.svg" alt="Icono de EL MUNDO" />
-    </a>
-  `,
+  templateUrl: './menu-medium.component.html',
   styleUrls: ['./menu-medium.component.scss'],
 })
 export class MenuMediumComponent {}

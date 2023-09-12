@@ -3,10 +3,14 @@
   "version": "1.0.0",
   "scripts": {
     "ng": "ng",
-    "start": "ng serve",
+    "start": "ng serve --configuration hmr",
     "build": "ng build",
     "watch": "ng build --watch --configuration development",
-    "test": "ng test"
+    "test": "ng test",
+    "hmr:": "node node_modules/@angular/cli/bin/ng serve --configuration hmr",
+    "frontend-angular-challenge:hmr": "node node_modules/@angular/cli/bin/ng serve frontend-angular-challenge  --port 4201 --configuration hmr",
+    "frontend-angular-challenge": "node node_modules/@angular/cli/bin/ng build frontend-angular-challenge --output-path=dist/frontend-angular-challenge --configuration production --output-hashing=all",
+    "frontend-angular-challenge:pre": "node node_modules/@angular/cli/bin/ng build frontend-angular-challenge --output-path=dist/frontend-angular-challenge-pre --configuration development --output-hashing=all"
   },
   "private": true,
   "dependencies": {
@@ -16,6 +20,7 @@
     "@angular/compiler": "^14.3.0",
     "@angular/core": "^14.3.0",
     "@angular/forms": "^14.3.0",
+    "@angular/material": "^14.2.7",
     "@angular/platform-browser": "^14.3.0",
     "@angular/platform-browser-dynamic": "^14.3.0",
     "@angular/router": "^14.3.0",
@@ -23,6 +28,8 @@
     "@ngrx/entity": "^14.3.3",
     "@ngrx/router-store": "^14.3.3",
     "@ngrx/store": "^14.3.3",
+    "@ngrx/store-devtools": "^14.3.3",
+    "bootstrap": "^5.3.1",
     "rxjs": "~7.5.7",
     "tslib": "^2.5.2",
     "zone.js": "~0.11.8"

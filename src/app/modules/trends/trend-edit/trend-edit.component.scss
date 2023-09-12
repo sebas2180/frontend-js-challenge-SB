@@ -1,0 +1,15 @@
+.trendEdit {
+  padding: 2rem 1rem 1rem 1rem;
+  .trendEdit-Header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+
+    .trendEdit-Header__Title {
+      span {
+        font-weight: 500;
+        font-size: 1.2 rem;
+      }
+    }
+  }
+}

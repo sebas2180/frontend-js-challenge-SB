@@ -1,6 +1,6 @@
 @import 'settings/variables';
 
-:host {
+.page-content {
   display: flex;
   flex-flow: column nowrap;
   justify-content: flex-start;
@@ -56,10 +56,9 @@
   font-size: 0.75rem;
   padding-right: 1.5rem;
 }
-
 @media screen and (min-width: 768px) {
-  :host {
-    display: grid;
+  .page-content  {
+    display: grid !important;
     grid-template-columns: 5.125rem 1fr;
     grid-template-rows: 4.125rem 1fr;
     gap: 2rem 0px;
@@ -94,9 +93,8 @@
     padding-right: 4rem;
   }
 }
-
 @media screen and (min-width: 1440px) {
-  :host {
+  .page-content {
     grid-template-columns: 16.75rem 1fr;
   }
 }

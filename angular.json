@@ -7,8 +7,6 @@
       "projectType": "application",
       "schematics": {
         "@schematics/angular:component": {
-          "inlineTemplate": true,
-          "inlineStyle": true,
           "style": "scss"
         }
       },
@@ -29,17 +27,20 @@
               "src/assets"
             ],
             "styles": [
-              "src/styles/styles.scss"
+              "src/styles/styles.scss",
+              "node_modules/bootstrap/dist/css/bootstrap.min.css"
             ],
             "stylePreprocessorOptions": {
               "includePaths": [
                 "src/styles"
               ]
             },
-            "scripts": []
+            "scripts": [],
+            "vendorChunk": true
           },
           "configurations": {
             "production": {
+              "sourceMap": false,
               "budgets": [
                 {
                   "type": "initial",
@@ -61,28 +62,50 @@
               "outputHashing": "all"
             },
             "development": {
-              "buildOptimizer": false,
-              "optimization": false,
+              "outputHashing": "all",
+              "optimization": true,
               "vendorChunk": true,
               "extractLicenses": false,
               "sourceMap": true,
               "namedChunks": true
+            },
+            "hmr": {
+              "sourceMap": true,
+              "budgets": [
+                {
+                  "type": "anyComponentStyle",
+                  "maximumWarning": "6kb"
+                }
+              ],
+              "fileReplacements": [
+                {
+                  "replace": "src/environments/environment.ts",
+                  "with": "src/environments/environment.default.ts"
+                }
+              ]
             }
           },
-          "defaultConfiguration": "production"
+          "defaultConfiguration": ""
         },
         "serve": {
           "builder": "@angular-devkit/build-angular:dev-server",
+          "options": {
+            "browserTarget": "frontend-angular-challenge:build"
+          },
           "configurations": {
             "production": {
               "browserTarget": "frontend-angular-challenge:build:production"
             },
-            "development": {
-              "browserTarget": "frontend-angular-challenge:build:development"
+            "dev": {
+              "browserTarget": "frontend-angular-challenge:build:dev"
+            },
+            "hmr": {
+              "hmr": true,
+              "browserTarget": "frontend-angular-challenge:build:hmr"
             }
-          },
-          "defaultConfiguration": "development"
+          }
         },
+
         "extract-i18n": {
           "builder": "@angular-devkit/build-angular:extract-i18n",
           "options": {
@@ -101,7 +124,8 @@
               "src/assets"
             ],
             "styles": [
-              "src/styles/styles.scss"
+              "src/styles/styles.scss",
+              "node_modules/bootstrap/dist/css/bootstrap.min.css"
             ],
             "stylePreprocessorOptions": {
               "includePaths": [
@@ -112,6 +136,14 @@
           }
         }
       }
+    }
+  },
+  "cli": {
+    "analytics": false,
+    "cache": {
+      "enabled": false,
+      "path": ".cache",
+      "environment": "all"
     }
   }
 }

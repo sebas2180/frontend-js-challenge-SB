@@ -2,32 +2,38 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { map, Observable, of } from 'rxjs';
 
-import { GetAllTrendsResponse } from './models/get-all-trends-response.model';
-import { GetOneTrendResponse } from './models/get-one-trend-response.model';
-import { Trend } from './models/trend.model';
-import { TrendProvider } from './models/trend-provider.model';
-import { TrendResponse } from './models/trend-response.model';
 import { environment } from 'src/environments/environment';
+import { GetOneTrendResponse } from '../models/get-one-trend-response.model';
+import { Trend } from '../models/trend.model';
+import { GetAllTrendsResponse } from '../models/get-all-trends-response.model';
+import { TrendResponse } from '../models/trend-response.model';
+import { TrendProvider } from '../models/trend-provider.model';
 
 @Injectable()
 export class TrendService {
   private readonly urlBase = environment.avantioAPIHost;
 
-  public readonly getAllUrl = `${this.urlBase}/v1/trends`;
+
 
   constructor(private httpClient: HttpClient) {}
 
   public getAll(): Observable<Trend[]> {
     return this.httpClient
-      .get<GetAllTrendsResponse>(this.getAllUrl)
+      .get<GetAllTrendsResponse>(environment.getAllUrl)
       .pipe(map(({ trends }) => [...trends.map(this.mapToTrendModel)]));
   }
 
   public getOne(id: string): Observable<Trend> {
-    const url = `${this.getAllUrl}/${id}`;
+    console.log("id: ", id);
+    const url = `${environment.getAllUrl}/${id}`;
     return this.httpClient
       .get<GetOneTrendResponse>(url)
       .pipe(map(({ trend }) => this.mapToTrendModel(trend)));
+  }
+
+  public deleteOne(trendId: string): Observable<any> {
+    const url = `${environment.deleteTrend}/${trendId}`;
+    return this.httpClient.delete<GetOneTrendResponse>(url)
   }
 
   private mapToTrendModel(trendResponse: TrendResponse): Trend {
