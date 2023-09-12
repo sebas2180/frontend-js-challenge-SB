@@ -3,6 +3,7 @@ import { createReducer, on } from '@ngrx/store';
 import * as TrendsListPageActions from '../actions/trends-list-page.actions';
 import * as TrendsApiActions from '../actions/trends-api.actions';
 import { Trend } from '../../models/trend.model';
+import { TrendActionEnum } from '../../enums/trend-acions.enum';
 
 export const trendsFeatureKey = 'trends';
 
@@ -10,6 +11,7 @@ export interface State extends EntityState<Trend> {
   selectedTrend: Trend | null;
   loaderUpdate: boolean,
   message: string,
+  actionRequire: TrendActionEnum;
 }
 
 
@@ -19,6 +21,7 @@ export const initialState: State = adapter.getInitialState({
   selectedTrend: null,
   loaderUpdate: false,
   message: null,
+  actionRequire: null,
 });
 
 export const trendsReducer = createReducer(
@@ -38,34 +41,49 @@ export const trendsReducer = createReducer(
   on(TrendsApiActions.loadOneTrendError, (state): State => {
     return { ...state, selectedTrend: null };
   }),
+  on(TrendsApiActions.createOneTrendSuccess, (state, { response }): State => {
+      const msg = 'Creación exitosa';
+      return { ...state, selectedTrend: response, message: msg, actionRequire: TrendActionEnum.CLOSE_DIALOG };
+  }),
   on(TrendsApiActions.deleteOneTrendSuccess, (state, { response }): State => {
     if (response.success) {
       const msg = 'Eliminado exitoso';
-      return { ...state, selectedTrend: null, message: msg };
+      return { ...state, selectedTrend: null, message: msg, actionRequire: TrendActionEnum.NAV_HOME };
     } else {
       const msg = 'Error al eliminar el elemento';
-      console.log('msg',msg);
-      return { ...state, loaderUpdate: false, message: msg };
+      return { ...state, loaderUpdate: false, message: msg};
     }
   }),
   on(TrendsApiActions.updateOneTrendError, (state, { error }): State => {
-    const msg = 'Error al actualizar';
+      const msg = 'Error al actualizar';
       return { ...state, loaderUpdate: false, message: msg };
   }),
   on(TrendsApiActions.updateOneTrendSuccess, (state, { response }): State => {
-    const msg = 'Actualización exitosa';
-    return { ...state, loaderUpdate: false, message: msg};
+    if (response?.modified === 1) {
+      const msg = 'Actualización exitosa';
+      return { ...state, loaderUpdate: false, message: msg, actionRequire: TrendActionEnum.CLOSE_DIALOG};
+    } else {
+      const msg = 'Error al actualizar';
+      return { ...state, loaderUpdate: false, message: msg };
+    }
   }),
   on(
     TrendsListPageActions.updateLoaderUpdateState,
     (state, { isLoadingUpdate: loaderUpdate}): State => {
-      const msg = 'Actualización exitosa';
-      return ({ ...state, loaderUpdate, message: msg })
+      return ({ ...state, loaderUpdate})
     }
   ),
   on(
     TrendsListPageActions.updateMessageTrendState,
-    (state, { msg: message}): State => ({ ...state, message })
+    (state, { msg: message}): State => {
+      return ({ ...state, message })
+    }
+  ),
+  on(
+    TrendsListPageActions.actionRequireTrendEditState,
+    (state, { action: actionRequire}): State => {
+      return  ({ ...state, actionRequire })
+    }
   )
 );
 
@@ -95,5 +113,11 @@ export const selectIsLoadingUpdateState = (state: State) => {
 // select loader trend state
 export const selectMessageState = (state: State) => {
   console.log(state);
-  return state.message
+  return state['trends'].message
+};
+
+// Close menu edit trend state
+export const selectactionRequireTrendState = (state: State) => {
+  console.log(state);
+  return state['trends'].actionRequire
 };

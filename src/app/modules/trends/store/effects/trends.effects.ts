@@ -8,6 +8,8 @@ import * as TrendsApiActions from '../actions/trends-api.actions';
 import * as TrendsListPageActions from '../actions/trends-list-page.actions';
 import * as TrendsCrudActions from '../actions/trend-crud.actions';
 import { TrendService } from '../../services/trend.service';
+import { DeleteOneTrendResponse } from '../../models/delete-one-trend-responde.model';
+import { Trend } from '../../models/trend.model';
 
 
 @Injectable()
@@ -45,7 +47,7 @@ export class TrendsEffects {
       ofType(TrendsCrudActions.deleteOneTrend),
       switchMap((payload) =>
       this.trendService.deleteOne(payload.trendId).pipe(
-      map((response) => TrendsApiActions.deleteOneTrendSuccess({ response })),
+      map((response: DeleteOneTrendResponse) => TrendsApiActions.deleteOneTrendSuccess({ response })),
       )
     )
     );
@@ -56,7 +58,7 @@ export class TrendsEffects {
       ofType(TrendsCrudActions.createOneTrend),
       switchMap((payload) =>
       this.trendService.createOne(payload.trend).pipe(
-      map((response) => TrendsApiActions.createOneTrendSuccess({ response })),
+      map((response: Trend) => TrendsApiActions.createOneTrendSuccess({ response })),
       )
     )
     );
@@ -66,7 +68,7 @@ export class TrendsEffects {
       ofType(TrendsCrudActions.updateOneTrend),
       switchMap((payload) =>
       this.trendService.updateOne(payload.trend, payload.id).pipe(
-      map((response) => TrendsApiActions.updateOneTrendSuccess({ response })),
+      map((response: DeleteOneTrendResponse) => TrendsApiActions.updateOneTrendSuccess({ response })),
       catchError((err) => of(TrendsApiActions.updateOneTrendError(err)))
       )
     )

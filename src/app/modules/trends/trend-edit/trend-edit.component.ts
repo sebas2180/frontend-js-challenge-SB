@@ -6,9 +6,10 @@ import { SidenavEndService } from 'src/app/modules/sidenav-end/services/sidenav-
 import { createOneTrend, updateOneTrend } from '../store/actions/trend-crud.actions';
 import { TrendRequest } from '../models/trend-request.model';
 import { Trend } from '../models/trend.model';
-import { updateLoaderUpdateState, updateMessageTrendState } from '../store/actions/trends-list-page.actions';
+import { actionRequireTrendEditState, updateLoaderUpdateState, updateMessageTrendState } from '../store/actions/trends-list-page.actions';
 import { Subscription } from 'rxjs';
-import { selectIsLoadingUpdateState, selectMessageState } from '../store/reducers';
+import { selectactionRequireTrendState, selectIsLoadingUpdateState, selectMessageState } from '../store/reducers';
+import { TrendActionEnum } from '../enums/trend-acions.enum';
 
 @Component({
     selector: 'app-trend-edit',
@@ -28,6 +29,8 @@ export class TrendEditComponent implements OnInit, OnDestroy {
   })
 
   messageState$ = this.store.select(selectMessageState);
+
+  actionRequire$ = this.store.select(selectactionRequireTrendState);
 
   isLoadingUpdate$ = this.store.select(selectIsLoadingUpdateState);
   isLoadingUpdate!: boolean;
@@ -106,6 +109,13 @@ export class TrendEditComponent implements OnInit, OnDestroy {
         this.store.dispatch(updateMessageTrendState({ msg: null }));
         console.log('message', message);
       }),
+      this.actionRequire$.subscribe((actionRequire: TrendActionEnum) => {
+        console.log('actionRequire', actionRequire);
+        if (actionRequire === TrendActionEnum.CLOSE_DIALOG) {
+          this.store.dispatch(actionRequireTrendEditState({action: null}));
+          this.close();
+        }
+      })
     );
   }
 }
