@@ -18,7 +18,7 @@ import { MatSidenavModule } from '@angular/material/sidenav';
 import { CoreModule } from './modules/core/core.module';
 import { SidenavEndModule } from './modules/sidenav-end/sidenav-end.module';
 import { AppTrendsModule } from './modules/trends';
-
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 registerLocaleData(localeEs, 'es');
 
 @NgModule({
@@ -27,6 +27,7 @@ registerLocaleData(localeEs, 'es');
   ],
   imports: [
     BrowserModule,
+    BrowserAnimationsModule,
     AppTrendsModule,
     AppRoutingModule,
     AppLayoutModule,
