@@ -12,26 +12,25 @@ import {
 import { SidenavEndDirective } from '../../directives/sidenav-end.directive';
 import { Overlay } from '../../enums/overlay.enum';
 import { SidenavEndService } from '../../services/sidenav-end.service';
-import { PayloadSidenavEnd } from '../../model/sidenav-end.model';
 import { TrendEditComponent } from 'src/app/modules/trends/trend-edit/trend-edit.component';
+import { PayloadSidenavEnd } from '../../model/sidenav-end.model';
 
 @Component({
-    selector: 'app-sidenav-end',
-    templateUrl: './sidenav-end.component.html',
-    styleUrls: ['./sidenav-end.component.scss'],
+  selector: 'app-sidenav-end',
+  templateUrl: './sidenav-end.component.html',
+  styleUrls: ['./sidenav-end.component.scss'],
 })
 export class SidenavEndComponent implements OnInit, OnDestroy {
-  @ViewChild(SidenavEndDirective) overlay!: SidenavEndDirective;
+  @ViewChild(SidenavEndDirective) overlay: SidenavEndDirective;
   @Output() overlayAction = new EventEmitter();
-  overlaySelected: any = null;
-  ref!: ComponentRef<any>;
-  overlayComponent!: number;
-  openComponents: Array<{ component: any; position: number; isFirstLevel?: boolean }> = [];
+  overlaySelected = null;
+  ref: ComponentRef<any>;
+  overlayComponent: number;
+  openComponents: Array<{ component: Overlay; position: number; isFirstLevel: boolean }> = [];
   constructor(
     private _sidenavEndService: SidenavEndService,
     private cdRef: ChangeDetectorRef
   ) {
-    console.log('pko');
     this.onOverlay();
   }
 
@@ -41,15 +40,12 @@ export class SidenavEndComponent implements OnInit, OnDestroy {
 
   private onOverlay() {
     this._sidenavEndService.onOverlayAction.subscribe((overlay) => {
-      console.log("overlay: ", overlay);
       switch (overlay.action) {
         case 'open':
-          if (overlay.closeFirstLevel) this.closeFirtsLevelComponents();
           setTimeout(() => {
             this.onOpenAction(overlay);
-          }, 10);
+          }, 100);
           break;
-
         case 'update':
           this.updateRef(overlay.data);
           break;
@@ -67,7 +63,6 @@ export class SidenavEndComponent implements OnInit, OnDestroy {
             this.onCloseAction(overlay);
             return;
           }
-          if (overlay.closeFirstLevel) this.closeFirtsLevelComponents();
           this.overlayAction.emit(false);
           this.onCloseAction(overlay);
           break;
@@ -86,14 +81,13 @@ export class SidenavEndComponent implements OnInit, OnDestroy {
   }
 
   private onOpenAction(overlay: PayloadSidenavEnd) {
-    console.log("overlay: ", overlay);
+    console.log(overlay);
     this.overlaySelected = overlay.component;
     const viewContainerRef = this.overlay.viewContainer;
     this.overlayAction.emit(true);
     switch (overlay.component) {
       case Overlay.EDIT_TREND:
         this.ref = viewContainerRef.createComponent(TrendEditComponent);
-        console.log("this.ref: ", this.ref);
         break;
       default:
         break;
@@ -106,16 +100,18 @@ export class SidenavEndComponent implements OnInit, OnDestroy {
     });
 
     if (overlay.data) {
+      console.log('aqui');
       this.ref.instance.data = overlay.data;
+      console.log(' this.ref', this.ref);
+      //this.updateRef(overlay.data);
+      //this.ref.setInput('data', overlay.data);
+        this.cdRef.detectChanges();
     }
     this.cdRef.detectChanges();
   }
 
-  private closeFirtsLevelComponents() {
-    return;
-  }
 
-  private onCloseAction(overlay: any) {
+  private onCloseAction(overlay) {
     this.openComponents.map((component, index) => {
       if (overlay.component === component.component) {
         this.openComponents =  this.openComponents.filter((item) => item !== component);
