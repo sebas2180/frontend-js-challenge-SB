@@ -43,11 +43,35 @@ export class TrendsEffects {
   deleteOneTrend$ = createEffect(() => {
     return this.actions$.pipe(
       ofType(TrendsCrudActions.deleteOneTrend),
-      switchMap((trendId) =>
-      this.trendService.deleteOne(trendId.trendiId).pipe(
+      switchMap((payload) =>
+      this.trendService.deleteOne(payload.trendId).pipe(
       map((response) => TrendsApiActions.deleteOneTrendSuccess({ response })),
       )
     )
     );
   });
+
+  createOneTrend$ = createEffect(() => {
+    return this.actions$.pipe(
+      ofType(TrendsCrudActions.createOneTrend),
+      switchMap((payload) =>
+      this.trendService.createOne(payload.trend).pipe(
+      map((response) => TrendsApiActions.createOneTrendSuccess({ response })),
+      )
+    )
+    );
+  });
+  updateOneTrend$ = createEffect(() => {
+    return this.actions$.pipe(
+      ofType(TrendsCrudActions.updateOneTrend),
+      switchMap((payload) =>
+      this.trendService.updateOne(payload.trend, payload.id).pipe(
+      map((response) => TrendsApiActions.updateOneTrendSuccess({ response })),
+      catchError((err) => of(TrendsApiActions.updateOneTrendError(err)))
+      )
+    )
+    );
+  });
+
+
 }

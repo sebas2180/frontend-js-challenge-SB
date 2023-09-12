@@ -1,6 +1,5 @@
 import { ChangeDetectorRef, Component } from '@angular/core';
 import { environment } from 'src/environments/environment';
-import { RouterOutlet } from '@angular/router';
 import { selectIsLoadingState } from './store/selectors';
 import { Subscription, delay } from 'rxjs';
 import { CustomBreakpointObserver } from './layout';

@@ -9,6 +9,7 @@ export const selectTrendsState = createFeatureSelector<fromTrendsReducer.State>(
   fromTrendsReducer.trendsFeatureKey
 );
 
+
 export const selectTrendIds = createSelector(
   selectTrendsState,
   fromTrendsReducer.selectTrendIds
@@ -37,6 +38,10 @@ export const selectTrendsTotal = createSelector(
 );
 
 export const selectSelectedTrend = createSelector(
+  selectTrendsState,
+  fromTrendsReducer.selectSelectedTrend
+);
+export const selectEditTrend = createSelector(
   selectTrendsState,
   fromTrendsReducer.selectSelectedTrend
 );

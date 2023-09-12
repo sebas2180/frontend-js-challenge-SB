@@ -13,7 +13,5 @@ export const environment = {
 
 
   // Common
-  getAllUrl:  `${avantioAPIHost}/v1/trends`,
-  deleteTrend:  `${avantioAPIHost}/v1/trends`,
-  updateTrend:  `${avantioAPIHost}/v1/trends`,
+  trendApi:  `${avantioAPIHost}/v1/trends`,
 };

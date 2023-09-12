@@ -13,3 +13,17 @@
     }
   }
 }
+.trendEdit-Content {
+  .trendEdit-Content__Container {
+    form {
+      .form-group {
+        textarea {
+          resize: none;
+        }
+      }
+    }
+  }
+}
+::ng-deep .mdc-text-field--outlined .mdc-notched-outline .mdc-notched-outline__trailing {
+  border-color: red;
+}

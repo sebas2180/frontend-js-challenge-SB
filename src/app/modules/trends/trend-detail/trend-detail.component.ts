@@ -23,10 +23,9 @@ export class TrendDetailComponent {
 
   deleteTrend(trend: Trend) {
     console.log("trend: ", trend);
-    this.store.dispatch(deleteOneTrend({trendiId: trend.id}));
+    this.store.dispatch(deleteOneTrend({trendId: trend.id}));
   }
   editTrend(trend: Trend) {
-    console.log("trend: ", trend);
     this._sidenavEndService.overlayActionSource.next({
       action: 'open',
       component: Overlay.EDIT_TREND,
