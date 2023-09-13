@@ -13,7 +13,6 @@ import { provideAnimations } from '@angular/platform-browser/animations';
 import { BrowserModule, bootstrapApplication } from '@angular/platform-browser';
 import { httpInterceptorProviders } from './app/app-http-interceptors';
 import { CustomBreakpointObserver } from './app/layout';
-import localeEsAr from '@angular/common/locales/es-AR';
 
 if (environment.production) {
   enableProdMode();

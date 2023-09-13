@@ -5,7 +5,5 @@ import { Directive, ViewContainerRef } from '@angular/core';
     standalone: true,
 })
 export class SidenavEndDirective {
-  constructor(public viewContainer: ViewContainerRef) {
-    console.log("viewContainer: ", viewContainer);
-  }
+  constructor(public viewContainer: ViewContainerRef) {}
 }

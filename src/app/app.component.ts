@@ -75,7 +75,6 @@ export class AppComponent {
 
   }
   actionOverlay(mode: boolean) {
-    console.log("mode: ", mode);
     this.openedSidenavEnd = mode;
     this.cdRef.detectChanges();
   }
@@ -117,7 +116,6 @@ export class AppComponent {
   private setColors(): void {
     const root = document.documentElement;
     root.style.setProperty('--color-client', environment.color);
-    console.log("environment.color: ", environment.color);
     root.style.setProperty('--color-client-400', this.LightenDarkenColor(environment.color, 10));
     root.style.setProperty('--color-client-transparency', environment.color + '19');
   }

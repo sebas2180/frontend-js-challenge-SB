@@ -1,4 +1,4 @@
-import { Component, Input, ChangeDetectorRef, OnInit, OnDestroy, ChangeDetectionStrategy } from '@angular/core';
+import { Component, Input, ChangeDetectorRef, OnInit, OnDestroy, ChangeDetectionStrategy, NgZone } from '@angular/core';
 import { FormControl, FormGroup, Validators, FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { Store } from '@ngrx/store';
 import { Overlay } from 'src/app/modules/sidenav-end/enums/overlay.enum';
@@ -9,10 +9,19 @@ import { Trend } from '../models/trend.model';
 import { actionRequireTrendEditState, updateLoaderUpdateState, updateMessageTrendState } from '../store/actions/trends-list-page.actions';
 import { Subscription } from 'rxjs';
 import { selectactionRequireTrendState, selectIsLoadingUpdateState, selectMessageState } from '../store/reducers';
-import { TrendActionEnum } from '../enums/trend-acions.enum';
+import { TrendActionEnum } from '../enums/trend-actions.enum';
 import { AppProgressBarComponent } from '../../core/components/app-progress-bar/app-progress-bar.component';
 import { NgIf, NgClass, AsyncPipe } from '@angular/common';
 import { AppButtonComponent } from '../../core/components/app-button/app-button.component';
+import { TrendMsgAction } from '../models/trend-msg-action.model';
+import { TrendMsgActionEnum } from '../enums/trend-msg-actions.enum';
+import { InformationSnackBarComponent } from '../../dialogs/components/information-snack-bar/information-snack-bar.component';
+import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
+
+/*
+  He generado el formulario de forma estática, pero para con un poco más de tiempo se puede levantar las opciones del formGroup de un json/api,
+  Luego con esto podemos pintar los inputs, con sus correspondientes configuraciones. Con esto logramos que podamos reutilizar los componentes.
+*/
 
 @Component({
     selector: 'app-trend-edit',
@@ -28,6 +37,7 @@ import { AppButtonComponent } from '../../core/components/app-button/app-button.
         NgClass,
         AppProgressBarComponent,
         AsyncPipe,
+        MatSnackBarModule,
     ],
 })
 export class TrendEditComponent implements OnInit, OnDestroy {
@@ -53,6 +63,8 @@ export class TrendEditComponent implements OnInit, OnDestroy {
     private _sidenavEndService : SidenavEndService,
     private store: Store,
     private cdRef: ChangeDetectorRef,
+    private snack: MatSnackBar,
+    private zone: NgZone,
     ) {}
   ngOnDestroy(): void {
     this.subscriptions?.map((subs: Subscription) => subs.unsubscribe());
@@ -71,7 +83,7 @@ export class TrendEditComponent implements OnInit, OnDestroy {
   saveTrend(): void {
     if (this.isLoadingUpdate) return;
     if (this.trendEditionGroup.invalid) {
-      this.trendEditionGroup.markAsTouched();
+      this.trendEditionGroup.markAllAsTouched();
       this.cdRef.detectChanges();
       return;
     }
@@ -118,17 +130,33 @@ export class TrendEditComponent implements OnInit, OnDestroy {
       this.isLoadingUpdate$.subscribe((loader: boolean) => {
         this.isLoadingUpdate = loader;
       }),
-      this.messageState$.subscribe((message: string) => {
+      this.messageState$.subscribe((message: TrendMsgAction) => {
+        console.log('(state);', message);
+        if (message) {
         this.store.dispatch(updateMessageTrendState({ msg: null }));
-        console.log('message', message);
+        this.manageTrendAction(message);
+        }
       }),
       this.actionRequire$.subscribe((actionRequire: TrendActionEnum) => {
-        console.log('actionRequire', actionRequire);
         if (actionRequire === TrendActionEnum.CLOSE_DIALOG) {
           this.store.dispatch(actionRequireTrendEditState({action: null}));
           this.close();
         }
       })
     );
+  }
+  private manageTrendAction(message: TrendMsgAction): void {
+    switch(message.type) {
+      case TrendMsgActionEnum.SNACKBAR:
+      case TrendMsgActionEnum.SUCCESS_DIALOG:
+        console.log('entra aqui...');
+        // Los TrendMsgActionEnum.SUCCESS_DIALOG hay que separarlo en otro case, y mostrarlo como MatDialog.
+
+          this.snack.open(
+            message.message, 'success',
+            {duration: 100000,  horizontalPosition: 'center', verticalPosition: 'bottom'},
+          );
+        break;
+    }
   }
 }

@@ -28,6 +28,9 @@
   padding: 0;
   text-align: center;
   background-color: color.scale($primary, $alpha: -80%);
+  display: flex;
+  align-items: center;
+  justify-content: center;
 
   &:active {
     transform: scale(0.95);
@@ -53,7 +56,7 @@
   border-radius: 0.75rem;
   padding: 1rem;
   padding-top: 1.5rem;
-  margin-top: -1.8125rem;
+  margin-top: -.5rem;
   box-shadow: 0px 1px 3px rgba(0, 0, 0, 0.149825);
 }
 
@@ -107,6 +110,7 @@
     padding: 0;
     justify-content: flex-start;
     padding-left: 2.03125rem;
+    
   }
 
   .trend__action {
@@ -114,6 +118,9 @@
     width: 3.25rem;
     height: 3.25rem;
     margin-bottom: 1rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
 
     & > img {
       width: 40%;
@@ -169,7 +176,7 @@
     margin-left: 48px;
     margin-right: 146px;
     max-width: 1184px;
-    margin-top: -3rem;
+    margin-top: -1rem;
   }
 
   .trend_paragraph-container {

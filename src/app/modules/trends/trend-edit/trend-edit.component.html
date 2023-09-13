@@ -14,53 +14,51 @@
       [secondary]="true"
       [sizeHeight]="40"
       [textColor]="'black'"
-      (click)="close()">
-    </app-button>
+      (click)="close()"/>
     <app-button
       [disabled]="(isLoadingUpdate$ | async)"
       [loading]="(isLoadingUpdate$ | async)"
       [text]="'Guardar'"
       [sizeHeight]="40"
       [textColor]="'black'"
-      (click)="saveTrend()">
-    </app-button>
+      (click)="saveTrend()"/>
   </div>
 
   <div class="trendEdit-Content">
     <div class="trendEdit-Content__Container mt-5">
       <form [formGroup]="trendEditionGroup">
         <div class="form-group mb-3" *ngIf="trendEditionGroup?.get('url')">
-          <label>Url</label>
+          <label>URL</label>
           <input 
               type="text" 
               class="form-control" 
               formControlName="url"
               placeholder="Ingrese una url.."
-              [ngClass]="{ 'is-invalid': trendEditionGroup?.get('url').invalid && trendEditionGroup.get('url').touched  }"
+              [ngClass]="{ 'is-invalid': trendEditionGroup.get('url').hasError('required') && trendEditionGroup.get('url').touched }"
               />
         </div>
         <div class="form-group mb-3" *ngIf="trendEditionGroup?.get('provider')">
-          <label>provider</label>
+          <label>Autor</label>
           <input 
               type="text" 
               class="form-control" 
               formControlName="provider"
               placeholder="Ingrese el nombre del provider.."
-              [ngClass]="{ 'is-invalid': trendEditionGroup?.get('provider').invalid && trendEditionGroup.get('provider').touched }"
+              [ngClass]="{ 'is-invalid':trendEditionGroup.get('provider').hasError('required') && trendEditionGroup.get('provider').touched }"
               />
         </div>
         <div class="form-group mb-3" *ngIf="trendEditionGroup?.get('title')">
-          <label>Title</label>
+          <label>Título</label>
           <input 
             type="text" 
             class="form-control" 
             placeholder="Ingrese un titulo.."
             formControlName="title"
-            [ngClass]="{ 'is-invalid': trendEditionGroup?.get('title').invalid && trendEditionGroup.get('title').touched }"
+            [ngClass]="{ 'is-invalid': trendEditionGroup.get('title').hasError('required') && trendEditionGroup.get('title').touched }"
             />
         </div>
         <div class="form-group mb-3" *ngIf="trendEditionGroup?.get('body')">
-          <label>body</label>
+          <label>Contenido</label>
           <textarea 
               name="textarea" 
               class="form-control"  
@@ -68,13 +66,12 @@
               rows="10" 
               cols="50" 
               formControlName="body"
-              [ngClass]="{ 'is-invalid': trendEditionGroup?.get('body').invalid && trendEditionGroup.get('body').touched }"
+              [ngClass]="{ 'is-invalid': trendEditionGroup.get('body').hasError('required')  && trendEditionGroup.get('body').touched }"
               >
-
             </textarea>
         </div>
       </form>
     </div>
-    <app-progress-bar *ngIf="(isLoadingUpdate$ | async)"></app-progress-bar>
+    <app-progress-bar *ngIf="(isLoadingUpdate$ | async)"/>
   </div>
 </div>

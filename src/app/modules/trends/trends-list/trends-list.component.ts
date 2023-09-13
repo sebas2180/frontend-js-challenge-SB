@@ -8,19 +8,7 @@ import { NgFor, AsyncPipe } from '@angular/common';
 
 @Component({
     selector: 'app-trends-list',
-    template: `
-    <article class="trend" *ngFor="let trend of trends$ | async">
-      <a class="trend__link" routerLink="/trends/{{ trend.id }}">
-        <figure class="trend__figure">
-          <img class="trend__image" [src]="trend.image" [alt]="trend.title" />
-          <figcaption class="trend__title">
-            <h2>{{ trend.title }}</h2>
-          </figcaption>
-        </figure>
-        <p class="trend__excerpt">{{ trend.body[0] }}</p>
-      </a>
-    </article>
-  `,
+    templateUrl: './trend.list.component.html',
     styleUrls: ['./trends-list.component.scss'],
     standalone: true,
     imports: [

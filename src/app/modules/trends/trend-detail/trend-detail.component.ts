@@ -7,7 +7,7 @@ import { selectSelectedTrend } from '../store/selectors';
 import { Trend } from '../models/trend.model';
 import { deleteOneTrend } from '../store/actions/trend-crud.actions';
 import { selectactionRequireTrendState } from '../store/reducers';
-import { TrendActionEnum } from '../enums/trend-acions.enum';
+import { TrendActionEnum } from '../enums/trend-actions.enum';
 import { actionRequireTrendEditState } from '../store/actions/trends-list-page.actions';
 import { Router, RouterLink } from '@angular/router';
 import { NgIf, NgFor, AsyncPipe } from '@angular/common';
