@@ -6,10 +6,35 @@ import { CustomBreakpointObserver } from './layout';
 import { Store } from '@ngrx/store';
 import { SidenavEndService } from './modules/sidenav-end/services/sidenav-end.service';
 import { Overlay } from './modules/sidenav-end/enums/overlay.enum';
+import { MenuLargeComponent } from './menu/menu-large/menu-large.component';
+import { MenuMediumComponent } from './menu/menu-medium/menu-medium.component';
+import { MenuSmallComponent } from './menu/menu-small/menu-small.component';
+import { RouterLink, RouterOutlet } from '@angular/router';
+import { NgIf, AsyncPipe, DatePipe } from '@angular/common';
+import { MatSidenavModule } from '@angular/material/sidenav';
+import { AppProgressBarComponent } from './modules/core/components/app-progress-bar/app-progress-bar.component';
+import { SidenavEndComponent } from './modules/sidenav-end/components/sidenav-end/sidenav-end.component';
+import { ButtonPlusComponent } from './modules/core/components/app-button-plus/app-button-plus.component';
+
 @Component({
     selector: 'app-root',
     templateUrl: './app.component.html',
     styleUrls: ['./app.component.scss'],
+    standalone: true,
+    imports: [
+        MatSidenavModule,
+        NgIf,
+        RouterLink,
+        MenuSmallComponent,
+        MenuMediumComponent,
+        MenuLargeComponent,
+        RouterOutlet,
+        AsyncPipe,
+        DatePipe,
+        AppProgressBarComponent,
+        SidenavEndComponent,
+        ButtonPlusComponent,
+    ],
 })
 export class AppComponent {
   currentDate = Date.now();

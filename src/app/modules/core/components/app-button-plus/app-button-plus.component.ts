@@ -5,6 +5,7 @@ import { Component } from '@angular/core';
     selector: 'app-button-plus',
     templateUrl: './app-button-plus.component.html',
     styleUrls: ['./app-button-plus.component.scss'],
+    standalone: true,
 })
 export class ButtonPlusComponent {
 

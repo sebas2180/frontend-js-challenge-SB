@@ -3,10 +3,12 @@ import { Store } from '@ngrx/store';
 
 import { loadTrends } from '../store/actions/trends-list-page.actions';
 import { selectTrendsByProvider } from '../store/selectors';
+import { RouterLink } from '@angular/router';
+import { NgFor, AsyncPipe } from '@angular/common';
 
 @Component({
-  selector: 'app-trends-list',
-  template: `
+    selector: 'app-trends-list',
+    template: `
     <article class="trend" *ngFor="let trend of trends$ | async">
       <a class="trend__link" routerLink="/trends/{{ trend.id }}">
         <figure class="trend__figure">
@@ -19,7 +21,13 @@ import { selectTrendsByProvider } from '../store/selectors';
       </a>
     </article>
   `,
-  styleUrls: ['./trends-list.component.scss'],
+    styleUrls: ['./trends-list.component.scss'],
+    standalone: true,
+    imports: [
+        NgFor,
+        RouterLink,
+        AsyncPipe,
+    ],
 })
 export class TrendsListComponent implements OnInit {
   protected trends$ = this.store.select(selectTrendsByProvider);

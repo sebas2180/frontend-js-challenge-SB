@@ -1,5 +1,5 @@
 import { Component, Input, ChangeDetectorRef, OnInit, OnDestroy, ChangeDetectionStrategy } from '@angular/core';
-import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { FormControl, FormGroup, Validators, FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { Store } from '@ngrx/store';
 import { Overlay } from 'src/app/modules/sidenav-end/enums/overlay.enum';
 import { SidenavEndService } from 'src/app/modules/sidenav-end/services/sidenav-end.service';
@@ -10,12 +10,25 @@ import { actionRequireTrendEditState, updateLoaderUpdateState, updateMessageTren
 import { Subscription } from 'rxjs';
 import { selectactionRequireTrendState, selectIsLoadingUpdateState, selectMessageState } from '../store/reducers';
 import { TrendActionEnum } from '../enums/trend-acions.enum';
+import { AppProgressBarComponent } from '../../core/components/app-progress-bar/app-progress-bar.component';
+import { NgIf, NgClass, AsyncPipe } from '@angular/common';
+import { AppButtonComponent } from '../../core/components/app-button/app-button.component';
 
 @Component({
     selector: 'app-trend-edit',
     templateUrl: './trend-edit.component.html',
     styleUrls: ['./trend-edit.component.scss'],
-    changeDetection: ChangeDetectionStrategy.OnPush,    
+    changeDetection: ChangeDetectionStrategy.OnPush,
+    standalone: true,
+    imports: [
+        AppButtonComponent,
+        FormsModule,
+        ReactiveFormsModule,
+        NgIf,
+        NgClass,
+        AppProgressBarComponent,
+        AsyncPipe,
+    ],
 })
 export class TrendEditComponent implements OnInit, OnDestroy {
   @Input() data: {trend: Trend};
