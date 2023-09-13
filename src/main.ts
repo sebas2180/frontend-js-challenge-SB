@@ -13,6 +13,7 @@ import { provideAnimations } from '@angular/platform-browser/animations';
 import { BrowserModule, bootstrapApplication } from '@angular/platform-browser';
 import { httpInterceptorProviders } from './app/app-http-interceptors';
 import { CustomBreakpointObserver } from './app/layout';
+import localeEsAr from '@angular/common/locales/es-AR';
 
 if (environment.production) {
   enableProdMode();
@@ -29,7 +30,11 @@ bootstrapApplication(AppComponent, {
             maxAge: 25,
             logOnly: environment.production,
         }), EffectsModule.forRoot([]), StoreRouterConnectingModule.forRoot()),
-        { provide: LOCALE_ID, useValue: 'es' }, httpInterceptorProviders,
+        { 
+          provide: LOCALE_ID, useValue: 'es'
+         }, 
+        httpInterceptorProviders,
+      
         provideAnimations(),
     ]
 })

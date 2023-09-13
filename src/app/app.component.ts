@@ -10,11 +10,12 @@ import { MenuLargeComponent } from './menu/menu-large/menu-large.component';
 import { MenuMediumComponent } from './menu/menu-medium/menu-medium.component';
 import { MenuSmallComponent } from './menu/menu-small/menu-small.component';
 import { RouterLink, RouterOutlet } from '@angular/router';
-import { NgIf, AsyncPipe, DatePipe } from '@angular/common';
+import { NgIf, AsyncPipe, DatePipe, registerLocaleData } from '@angular/common';
 import { MatSidenavModule } from '@angular/material/sidenav';
 import { AppProgressBarComponent } from './modules/core/components/app-progress-bar/app-progress-bar.component';
 import { SidenavEndComponent } from './modules/sidenav-end/components/sidenav-end/sidenav-end.component';
 import { ButtonPlusComponent } from './modules/core/components/app-button-plus/app-button-plus.component';
+import es from '@angular/common/locales/es';
 
 @Component({
     selector: 'app-root',
@@ -57,6 +58,8 @@ export class AppComponent {
   ) {
     this.initSubscriptions();
     this.setColors();
+
+    registerLocaleData(es, 'es');
   }
   ngOnDestroy(): void {
     this.subscriptions?.map((subs: Subscription) => subs.unsubscribe());
