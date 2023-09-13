@@ -1,0 +1,19 @@
+<div class="confirmation-dialog">
+  <div *ngIf="data.title">
+    <div mat-dialog-title  class="mat-mdc-dialog-title" >
+      <div class="d-flex align-items-center">
+        <h1 class="title">{{ data.title  }}</h1>
+      </div>
+      <div *ngIf="data.close">
+        <i (click)="close()" class="material-icons close-btn">close</i>
+      </div>
+    </div>
+  </div>
+  <div mat-dialog-content>
+    <p class="app-dialog-desc">{{ data.message }}</p>
+  </div>
+  <div mat-dialog-actions class="d-flex justify-content-center">
+    <app-button (click)="cancel()" [secondary]="true" class="m-1" [text]="dismissLabel"/>
+    <app-button (click)="accept()" [text]="acceptLabel"  class="m-1"/>
+  </div>
+</div>
