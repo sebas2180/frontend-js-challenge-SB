@@ -9,12 +9,20 @@ import { deleteOneTrend } from '../store/actions/trend-crud.actions';
 import { selectactionRequireTrendState } from '../store/reducers';
 import { TrendActionEnum } from '../enums/trend-acions.enum';
 import { actionRequireTrendEditState } from '../store/actions/trends-list-page.actions';
-import { Router } from '@angular/router';
+import { Router, RouterLink } from '@angular/router';
+import { NgIf, NgFor, AsyncPipe } from '@angular/common';
 
 @Component({
     selector: 'app-trend-detail',
     templateUrl: './trend-detail.component.html',
     styleUrls: ['./trend-detail.component.scss'],
+    standalone: true,
+    imports: [
+        RouterLink,
+        NgIf,
+        NgFor,
+        AsyncPipe,
+    ],
 })
 export class TrendDetailComponent implements OnInit, OnDestroy{
   protected trend$ = this.store.select(selectSelectedTrend);

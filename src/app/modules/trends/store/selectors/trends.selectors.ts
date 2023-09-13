@@ -1,9 +1,9 @@
 import { createFeatureSelector, createSelector } from '@ngrx/store';
-import { getSelectors } from '@ngrx/router-store';
+import { getRouterSelectors } from '@ngrx/router-store';
 
 import * as fromTrendsReducer from '../reducers';
 
-const { selectRouteParams } = getSelectors();
+const { selectRouteParams } = getRouterSelectors();
 
 export const selectTrendsState = createFeatureSelector<fromTrendsReducer.State>(
   fromTrendsReducer.trendsFeatureKey
