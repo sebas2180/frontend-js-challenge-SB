@@ -44,9 +44,7 @@ export class SidenavEndComponent implements OnInit, OnDestroy {
     this._sidenavEndService.onOverlayAction.subscribe((overlay) => {
       switch (overlay.action) {
         case 'open':
-          setTimeout(() => {
             this.onOpenAction(overlay);
-          }, 100);
           break;
         case 'update':
           this.updateRef(overlay.data);
@@ -83,7 +81,6 @@ export class SidenavEndComponent implements OnInit, OnDestroy {
   }
 
   private onOpenAction(overlay: PayloadSidenavEnd) {
-    console.log(overlay);
     this.overlaySelected = overlay.component;
     const viewContainerRef = this.overlay.viewContainer;
     this.overlayAction.emit(true);
@@ -102,11 +99,7 @@ export class SidenavEndComponent implements OnInit, OnDestroy {
     });
 
     if (overlay.data) {
-      console.log('aqui');
       this.ref.instance.data = overlay.data;
-      console.log(' this.ref', this.ref);
-      //this.updateRef(overlay.data);
-      //this.ref.setInput('data', overlay.data);
         this.cdRef.detectChanges();
     }
     this.cdRef.detectChanges();

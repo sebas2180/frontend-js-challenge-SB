@@ -1,0 +1,26 @@
+.success-dialog {
+  .mat-mdc-dialog-title {
+    margin: 0;
+  }
+
+  .mat-mdc-dialog-content {
+    font-size: 1rem !important;
+    padding: 20px 40px 1rem !important;
+    height: none !important;
+  }
+
+  .succes-actions {
+    justify-content: center;
+    app-appbutton {
+      margin: 0 .5rem 0 .5rem;
+    }
+
+    button {
+      font-weight: 500 !important;
+    }
+
+    app-appbutton {
+      padding-bottom: 8px;
+    }
+  }
+}

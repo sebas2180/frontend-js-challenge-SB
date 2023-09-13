@@ -1,0 +1,12 @@
+.mat-mdc-snack-bar-container {
+    opacity: 0.9 !important;
+    background: #333333 !important;
+    color: white !important;
+}
+.information-snack-bar-content {
+    text-align: center;
+    .action-content {
+        display: flex;
+        justify-content: center;
+    }
+}
