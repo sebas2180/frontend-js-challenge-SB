@@ -14,9 +14,8 @@ import { AppProgressBarComponent } from '../../core/components/app-progress-bar/
 import { NgIf, NgClass, AsyncPipe } from '@angular/common';
 import { AppButtonComponent } from '../../core/components/app-button/app-button.component';
 import { TrendMsgAction } from '../models/trend-msg-action.model';
-import { TrendMsgActionEnum } from '../enums/trend-msg-actions.enum';
-import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
-import { selectSelectedTrend } from '../store/selectors';
+import { MatSnackBarModule } from '@angular/material/snack-bar';
+import { TrendService } from '../services/trend.service';
 
 /*
   He generado el formulario de forma estática, pero para con un poco más de tiempo se puede levantar las opciones del formGroup de un json/api,
@@ -63,8 +62,7 @@ export class TrendEditComponent implements OnInit, OnDestroy {
     private _sidenavEndService : SidenavEndService,
     private store: Store,
     private cdRef: ChangeDetectorRef,
-    private snack: MatSnackBar,
-    private zone: NgZone,
+    private _trendService: TrendService,
     ) {}
   ngOnDestroy(): void {
     this.subscriptions?.map((subs: Subscription) => subs.unsubscribe());
@@ -136,7 +134,7 @@ export class TrendEditComponent implements OnInit, OnDestroy {
       this.messageState$.subscribe((message: TrendMsgAction) => {
         if (message) {
         this.store.dispatch(updateMessageTrendState({ msg: null }));
-        this.manageTrendAction(message);
+        this._trendService.manageTrendAction(message);
         }
       }),
       this.actionRequire$.subscribe((actionRequire: TrendActionEnum) => {
@@ -147,22 +145,5 @@ export class TrendEditComponent implements OnInit, OnDestroy {
       })
     );
   }
-  private async manageTrendAction(message: TrendMsgAction): Promise<void> {
-    switch(message.type) {
-      case TrendMsgActionEnum.SNACKBAR:
-        this.snack.open(
-          message.message, 'success',
-          {duration: 100000,  horizontalPosition: 'center', verticalPosition: 'bottom'},
-        );
-        break;
-      case TrendMsgActionEnum.SUCCESS_DIALOG:
-        // Cierro el sidenav
-        this._sidenavEndService.overlayActionSource.next({
-          action: 'remove',
-          component: Overlay.ALL,
-          closeFirstLevel: true,
-        });
-        break;
-    }
-  }
+
 }

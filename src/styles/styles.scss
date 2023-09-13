@@ -5,6 +5,7 @@
 // ------------------------------------
 
 @import 'settings/variables';
+@import '~@angular/material/prebuilt-themes/deeppurple-amber.css';
 
 // ------------------------------------
 //   Base
@@ -18,3 +19,6 @@
     border-top-left-radius: 2rem o !important;
     box-shadow: 0 0 8px #cccc;
 }
+::ng-deep .cdk-overlay-pane {
+    align-items: center;
+  }

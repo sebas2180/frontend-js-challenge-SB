@@ -9,6 +9,7 @@ import { AuthInterceptor } from './auth-interceptor';
 import { TrendService } from './services/trend.service';
 import { trendsEffects } from './store/effects';
 import { trendsFeatureKey, trendsReducer } from './store/reducers';
+import { MatSnackBarModule } from '@angular/material/snack-bar';
 
 @NgModule({
     imports: [
@@ -17,6 +18,7 @@ import { trendsFeatureKey, trendsReducer } from './store/reducers';
     HttpClientModule,
     StoreModule.forFeature(trendsFeatureKey, trendsReducer),
     EffectsModule.forFeature(trendsEffects),
+    MatSnackBarModule,
 ],
     providers: [
         TrendService,
