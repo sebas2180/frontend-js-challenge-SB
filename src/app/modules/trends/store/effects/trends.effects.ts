@@ -1,7 +1,7 @@
 import { Actions, createEffect, ofType } from '@ngrx/effects';
 import { Injectable } from '@angular/core';
 import { catchError, filter, map, mergeMap, switchMap } from 'rxjs/operators';
-import { of } from 'rxjs';
+import { of,tap} from 'rxjs';
 import { routerNavigationAction } from '@ngrx/router-store';
 
 import * as TrendsApiActions from '../actions/trends-api.actions';
@@ -10,11 +10,16 @@ import * as TrendsCrudActions from '../actions/trend-crud.actions';
 import { TrendService } from '../../services/trend.service';
 import { DeleteOneTrendResponse } from '../../models/delete-one-trend-responde.model';
 import { Trend } from '../../models/trend.model';
+import { Router } from '@angular/router';
 
 
 @Injectable()
 export class TrendsEffects {
-  constructor(private actions$: Actions, private trendService: TrendService) {}
+  constructor(
+    private actions$: Actions, 
+    private trendService: TrendService,
+    private router: Router,
+    ) {}
 
   loadTrends$ = createEffect(() => {
     return this.actions$.pipe(
@@ -58,7 +63,12 @@ export class TrendsEffects {
       ofType(TrendsCrudActions.createOneTrend),
       switchMap((payload) =>
       this.trendService.createOne(payload.trend).pipe(
-      map((response: Trend) => TrendsApiActions.createOneTrendSuccess({ response })),
+      map((response: Trend) => {
+        // Redirijo al trend creado. 
+        if (response?.id) this.router.navigate(['/trend/'+ response.id])
+        return TrendsApiActions.createOneTrendSuccess({ response })}
+        ),
+      catchError((err) => of(TrendsApiActions.createOneTrendError(err)))
       )
     )
     );
@@ -68,7 +78,9 @@ export class TrendsEffects {
       ofType(TrendsCrudActions.updateOneTrend),
       switchMap((payload) =>
       this.trendService.updateOne(payload.trend, payload.id).pipe(
-      map((response: DeleteOneTrendResponse) => TrendsApiActions.updateOneTrendSuccess({ response })),
+      map((response: DeleteOneTrendResponse) =>{ 
+        return TrendsApiActions.updateOneTrendSuccess({ response })
+      } ),
       catchError((err) => of(TrendsApiActions.updateOneTrendError(err)))
       )
     )

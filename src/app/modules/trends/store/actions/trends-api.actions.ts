@@ -28,6 +28,10 @@ export const createOneTrendSuccess = createAction(
   '[Trends/CRUD] Create One Trend Success',
   props<{ response: any }>()
 );
+export const createOneTrendError = createAction(
+  '[Trends/CRUD] Create One Trend Error',
+  props<{ error: any }>()
+);
 export const updateOneTrendSuccess = createAction(
   '[Trends/CRUD] Update One Trend Success',
   props<{ response: any }>()

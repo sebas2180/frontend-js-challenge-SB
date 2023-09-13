@@ -29,6 +29,7 @@ export class TrendDetailComponent implements OnInit, OnDestroy{
   actionRequire$ = this.store.select(selectactionRequireTrendState);
 
   subscriptions: Subscription[] = [];
+
   constructor(
     private store: Store,
     private _sidenavEndService: SidenavEndService,
@@ -58,9 +59,10 @@ export class TrendDetailComponent implements OnInit, OnDestroy{
       this.actionRequire$.subscribe((actionRequire: TrendActionEnum) => {
         if (actionRequire === TrendActionEnum.NAV_HOME) {
           this.store.dispatch(actionRequireTrendEditState({action: null}));
+          // AL eliminar un trend, navego al home
           this.router.navigate(['/']);
         }
-      })
+      }),
     );
   }
 }
