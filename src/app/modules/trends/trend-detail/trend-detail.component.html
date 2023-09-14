@@ -2,7 +2,7 @@
   <img src="assets/Iconos/Actions/back.svg" alt="Flecha hacia atrás" />
   <span>TODOS LOS EVENTOS</span>
 </a>
-<article class="trend__detail" *ngIf="trend$ | async as trend">
+<article class="trend__detail delay" *ngIf="trend$ | async as trend">
   <header class="trend__header">
     <div class="trend__actions">
       <button type="button" class="trend__action" (click)="editTrend(trend)">

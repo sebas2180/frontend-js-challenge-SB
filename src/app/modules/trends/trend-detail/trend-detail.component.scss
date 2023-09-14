@@ -58,6 +58,14 @@
   padding-top: 1.5rem;
   margin-top: -.5rem;
   box-shadow: 0px 1px 3px rgba(0, 0, 0, 0.149825);
+
+  animation-duration: 0.25s;
+  animation-delay: 0s;
+  animation-name: animate-fade;
+  animation-timing-function: ease-in-out;
+  animation-fill-mode: backwards;
+  animation-name: animate-glow;
+  animation-timing-function: ease;
 }
 
 .trend__title {
@@ -94,6 +102,35 @@
     margin-bottom: 2rem;
   }
 }
+
+@keyframes animate-glow {
+  0% {
+    width: 0%;
+    opacity: 0;
+    filter: brightness(3) saturate(3);
+    transform: scale(0.8, 0.8);
+    right: 0%;
+  }
+  50% {
+    width: 50%;
+    opacity: 0;
+    filter: brightness(3) saturate(3);
+    transform: scale(0.8, 0.8);
+    right: 50%;
+  }
+  100% {
+    width: 100%;
+    opacity: 1;
+    filter: brightness(1) saturate(1);
+    transform: scale(1, 1);
+    right: 100%;
+  }
+}
+
+.delay {
+  animation-delay: 0.3s;
+}
+
 
 @media screen and (min-width: 768px) {
   .trend__detail {

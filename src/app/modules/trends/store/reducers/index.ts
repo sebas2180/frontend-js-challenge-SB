@@ -44,11 +44,11 @@ export const trendsReducer = createReducer(
   }),
   on(TrendsApiActions.createOneTrendSuccess, (state, { response }): State => {
     const msg = TrendResponsesStrEnum.CREATE_SUCCESS;;
-    return { ...state, selectedTrend: response, message: {message: msg, type: TrendMsgActionEnum.SUCCESS_DIALOG}, actionRequire: TrendActionEnum.CLOSE_DIALOG };
+    return { ...state, selectedTrend: response, loaderUpdate: false,message: {message: msg, type: TrendMsgActionEnum.SUCCESS_DIALOG}, actionRequire: TrendActionEnum.CLOSE_DIALOG };
   }),
   on(TrendsApiActions.createOneTrendError, (state, { error }): State => {
     const msg = TrendResponsesStrEnum.CREATE_ERROR;;
-    return { ...state, message: {message: msg, type: TrendMsgActionEnum.SNACKBAR}, actionRequire: TrendActionEnum.CLOSE_DIALOG };
+    return { ...state, loaderUpdate: false, message: {message: msg, type: TrendMsgActionEnum.SNACKBAR}, actionRequire: TrendActionEnum.CLOSE_DIALOG };
   }),
   on(TrendsApiActions.deleteOneTrendSuccess, (state, { response }): State => {
     if (response.success) {
