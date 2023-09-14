@@ -11,6 +11,13 @@
         font-size: 1.2 rem;
       }
     }
+    .trendEditor-Header_Buttons {
+      display: flex;
+
+      app-button {
+        margin: 0 .25rem;
+      }
+    }
   }
 }
 .trendEdit-Content {
