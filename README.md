@@ -1,3 +1,11 @@
+- Se ha preparado el proyecto para tener estructura de compilaciones con entornos de dev y prod.
+  Con el script 'npm run frontend-angular-challenge:hmr' se puede ejecutar el proyecto en local.
+
+- Los métodos PUT Y POST me generan el error de CORS. Pero está preparado para tratar los casos de error y de éxito en dichas peticiones.
+
+- El método DELETE me devuelve en el response success: false. Pero está preparado si devuelve 'true', muestra un snackbar y redirige a '/trends'.
+
+
 # Frontend JS Challenge
 ![atrends](./assets/readme/first.png)
 
