@@ -1,6 +1,8 @@
+
+const avantioAPIHost =  'https://challenge.avantio.pro';
 const PROXY = {
-    'https://challenge.avantio.pro/v1/*': {
-        target: process.env['NG_APP_aVANTIO_API_HOST'],
+    '/v1/*': {
+        target: avantioAPIHost,
         secure: true,
         logLevel: 'debug',
         changeOrigin: true,
