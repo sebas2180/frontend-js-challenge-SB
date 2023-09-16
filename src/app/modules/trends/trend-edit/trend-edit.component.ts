@@ -1,5 +1,5 @@
-import { Component, Input, ChangeDetectorRef, OnInit, OnDestroy, ChangeDetectionStrategy } from '@angular/core';
-import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { Component, Input, ChangeDetectorRef, OnInit, OnDestroy, ChangeDetectionStrategy, NgZone } from '@angular/core';
+import { FormControl, FormGroup, Validators, FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { Store } from '@ngrx/store';
 import { Overlay } from 'src/app/modules/sidenav-end/enums/overlay.enum';
 import { SidenavEndService } from 'src/app/modules/sidenav-end/services/sidenav-end.service';
@@ -7,15 +7,37 @@ import { createOneTrend, updateOneTrend } from '../store/actions/trend-crud.acti
 import { TrendRequest } from '../models/trend-request.model';
 import { Trend } from '../models/trend.model';
 import { actionRequireTrendEditState, updateLoaderUpdateState, updateMessageTrendState } from '../store/actions/trends-list-page.actions';
-import { Subscription } from 'rxjs';
+import { Subscription, take } from 'rxjs';
 import { selectactionRequireTrendState, selectIsLoadingUpdateState, selectMessageState } from '../store/reducers';
-import { TrendActionEnum } from '../enums/trend-acions.enum';
+import { TrendActionEnum } from '../enums/trend-actions.enum';
+import { AppProgressBarComponent } from '../../core/components/app-progress-bar/app-progress-bar.component';
+import { NgIf, NgClass, AsyncPipe } from '@angular/common';
+import { AppButtonComponent } from '../../core/components/app-button/app-button.component';
+import { TrendMsgAction } from '../models/trend-msg-action.model';
+import { MatSnackBarModule } from '@angular/material/snack-bar';
+import { TrendService } from '../services/trend.service';
+
+/*
+  He generado el formulario de forma estática, pero para con un poco más de tiempo se puede levantar las opciones del formGroup de un json/api,
+  Luego con esto podemos pintar los inputs, con sus correspondientes configuraciones. Con esto logramos que podamos reutilizar los componentes.
+*/
 
 @Component({
     selector: 'app-trend-edit',
     templateUrl: './trend-edit.component.html',
     styleUrls: ['./trend-edit.component.scss'],
-    changeDetection: ChangeDetectionStrategy.OnPush,    
+    changeDetection: ChangeDetectionStrategy.OnPush,
+    standalone: true,
+    imports: [
+        AppButtonComponent,
+        FormsModule,
+        ReactiveFormsModule,
+        NgIf,
+        NgClass,
+        AppProgressBarComponent,
+        AsyncPipe,
+        MatSnackBarModule,
+    ],
 })
 export class TrendEditComponent implements OnInit, OnDestroy {
   @Input() data: {trend: Trend};
@@ -40,6 +62,7 @@ export class TrendEditComponent implements OnInit, OnDestroy {
     private _sidenavEndService : SidenavEndService,
     private store: Store,
     private cdRef: ChangeDetectorRef,
+    private _trendService: TrendService,
     ) {}
   ngOnDestroy(): void {
     this.subscriptions?.map((subs: Subscription) => subs.unsubscribe());
@@ -58,7 +81,7 @@ export class TrendEditComponent implements OnInit, OnDestroy {
   saveTrend(): void {
     if (this.isLoadingUpdate) return;
     if (this.trendEditionGroup.invalid) {
-      this.trendEditionGroup.markAsTouched();
+      this.trendEditionGroup.markAllAsTouched();
       this.cdRef.detectChanges();
       return;
     }
@@ -103,14 +126,18 @@ export class TrendEditComponent implements OnInit, OnDestroy {
   private initSubscriptions() : void {
     this.subscriptions.push(
       this.isLoadingUpdate$.subscribe((loader: boolean) => {
+        // Si está cargando, bloqueo el formulario 
+        loader ? this.trendEditionGroup.disable() : this.trendEditionGroup.enable();
+
         this.isLoadingUpdate = loader;
       }),
-      this.messageState$.subscribe((message: string) => {
+      this.messageState$.subscribe((message: TrendMsgAction) => {
+        if (message) {
         this.store.dispatch(updateMessageTrendState({ msg: null }));
-        console.log('message', message);
+        this._trendService.manageTrendAction(message);
+        }
       }),
       this.actionRequire$.subscribe((actionRequire: TrendActionEnum) => {
-        console.log('actionRequire', actionRequire);
         if (actionRequire === TrendActionEnum.CLOSE_DIALOG) {
           this.store.dispatch(actionRequireTrendEditState({action: null}));
           this.close();
@@ -118,4 +145,5 @@ export class TrendEditComponent implements OnInit, OnDestroy {
       })
     );
   }
+
 }

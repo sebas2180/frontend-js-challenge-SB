@@ -2,7 +2,7 @@
   <img src="assets/Iconos/Actions/back.svg" alt="Flecha hacia atrás" />
   <span>TODOS LOS EVENTOS</span>
 </a>
-<article class="trend__detail" *ngIf="trend$ | async as trend">
+<article class="trend__detail delay" *ngIf="trend$ | async as trend">
   <header class="trend__header">
     <div class="trend__actions">
       <button type="button" class="trend__action" (click)="editTrend(trend)">
@@ -12,7 +12,12 @@
         <img src="assets/Iconos/Actions/delete.svg" alt="Borrar noticia" />
       </button>
     </div>
-    <img class="trend__image" [src]="trend.image" alt="trend.title" />
+    <img 
+      class="trend__image" 
+      [src]="trend.image" 
+      alt="trend.title" 
+      loading="lazy"
+      (error)="doSomethingOnError($event)"/>
   </header>
   <div class="trend__content">
     <h2 class="trend__title">

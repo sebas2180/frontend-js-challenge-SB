@@ -7,7 +7,7 @@
       [opened]="openedSidenavEnd"
       (closedStart)="closeSidenavEnd()"
   >
-    <app-sidenav-end (overlayAction)="actionOverlay($event)"></app-sidenav-end>
+    <app-sidenav-end (overlayAction)="actionOverlay($event)"/>
 	</mat-sidenav>
 
 	<mat-sidenav-content>
@@ -15,10 +15,11 @@
     <app-progress-bar
     *ngIf="(isLoading$ | async)"
     class="app-progress-bar"
-    ></app-progress-bar>
+    />
     <header class="app-header">
     <a [routerLink]="'/'">
       <img
+        loading="lazy"
         *ngIf="isSmallScreen$ | async"
         class="app-logo"
         src="assets/Logos/aTrendsPRO.svg"
@@ -30,13 +31,13 @@
     </div>
     </header>
     <nav class="app-navigation">
-      <app-menu-small *ngIf="isSmallScreen"></app-menu-small>
-      <app-menu-medium *ngIf="isMediumScreen"></app-menu-medium>
-      <app-menu-large *ngIf="isLargeScreen"></app-menu-large>
+      <app-menu-small *ngIf="isSmallScreen"/>
+      <app-menu-medium *ngIf="isMediumScreen"/>
+      <app-menu-large *ngIf="isLargeScreen"/>
     </nav>
     <main class="app-main-content">
       <router-outlet></router-outlet>
-      <app-button-plus (click)="createTrend()"></app-button-plus>
+      <app-button-plus (click)="createTrend()"/>
     </main>
     </div>
   </mat-sidenav-content>

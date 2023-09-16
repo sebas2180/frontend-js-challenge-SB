@@ -1,0 +1,10 @@
+<div class="app-dialog success-dialog">
+  <div *ngIf="success" class="app-dialog-icon"><img src="./assets/img/wh_register_ok@2x.png" /></div>
+  <div mat-dialog-content>
+    <p *ngIf="data?.title" class="app-dialog-title">{{ data?.title }}</p>
+    <p *ngIf="data?.message" class="app-dialog-desc" [innerHTML]="data?.message"></p>
+  </div>
+  <div mat-dialog-actions class="succes-actions d-flex justify-content-center align-items-center px-1 pb-4">
+    <app-button (click)="accept()"/>
+  </div>
+</div>

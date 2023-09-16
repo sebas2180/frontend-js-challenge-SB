@@ -1,0 +1,7 @@
+<div class="information-snack-bar-content">
+  <div [innerHTML]="data?.text"></div>
+  <div *ngIf="data?.moreText" [innerHTML]="data?.moreText"></div>
+  <div *ngIf="data?.action" class="action-content mt-1">
+    <button mat-raised-button (click)="close()">{{ 'Cerrar' }}</button>
+  </div>
+</div>

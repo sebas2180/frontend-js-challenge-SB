@@ -5,5 +5,6 @@ import { Component } from '@angular/core';
     selector: 'app-progress-bar',
     templateUrl: './app-progress-bar.component.html',
     styleUrls: ['./app-progress-bar.component.scss'],
+    standalone: true,
 })
 export class AppProgressBarComponent {}

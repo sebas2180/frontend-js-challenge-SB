@@ -1,0 +1,48 @@
+
+.confirmation-dialog {
+    div .mat-mdc-dialog-title {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-weight: 400;
+        padding: 0.75rem 1rem;
+        color: #fff;
+        background-color: var(--color-client);
+        margin: 0;
+        display: flex;
+        margin: 0;
+
+        h1 {
+            margin: 0;
+            font-size: 1.25rem;
+        }
+    }
+
+    .header-background-white {
+        background-color: #fff;
+        color: rgb(0, 0, 0);
+    }
+
+    .mat-mdc-dialog-content {
+        font-size: 1rem !important;
+        padding: 1rem 1rem 0 !important;
+        margin: 0 !important;
+
+        .app-dialog-desc {
+            color: #a7a7ab;
+            text-align: center;
+            font-size: 15px;
+            line-height: 1.2;
+        }
+    }
+
+    .mat-mdc-dialog-actions {
+        margin: 0 !important;
+        padding: 8px !important;
+
+        button {
+            font-weight: 500 !important;
+        }
+    }
+}
+

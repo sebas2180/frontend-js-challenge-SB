@@ -5,6 +5,7 @@
 // ------------------------------------
 
 @import 'settings/variables';
+@import '~@angular/material/prebuilt-themes/deeppurple-amber.css';
 
 // ------------------------------------
 //   Base
@@ -12,9 +13,23 @@
 
 @import 'base/elements';
 
+.mat-sidenav-content {
+    height: 100vh !important;
+    height: 100dvh !important;
+    overflow-y: auto;
+}
 .mat-drawer.mat-drawer-end {
     background-color: #ffff;
-    width: 450px;
+    width: 100vw;
     border-top-left-radius: 2rem o !important;
     box-shadow: 0 0 8px #cccc;
+}
+::ng-deep .cdk-overlay-pane {
+    align-items: center;
+}
+@media screen and (min-width: 768px) {
+    .mat-drawer.mat-drawer-end {
+        width: 450px;
+
+    }
 }

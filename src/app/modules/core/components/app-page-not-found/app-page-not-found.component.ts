@@ -5,6 +5,7 @@ import { Router } from '@angular/router';
     selector: 'app-app-page-not-found',
     templateUrl: './app-page-not-found.component.html',
     styleUrls: ['./app-page-not-found.component.scss'],
+    standalone: true,
 })
 export class AppPageNotFoundComponent {
   constructor(private router: Router) {

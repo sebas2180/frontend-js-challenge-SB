@@ -16,9 +16,11 @@ import { TrendEditComponent } from 'src/app/modules/trends/trend-edit/trend-edit
 import { PayloadSidenavEnd } from '../../model/sidenav-end.model';
 
 @Component({
-  selector: 'app-sidenav-end',
-  templateUrl: './sidenav-end.component.html',
-  styleUrls: ['./sidenav-end.component.scss'],
+    selector: 'app-sidenav-end',
+    templateUrl: './sidenav-end.component.html',
+    styleUrls: ['./sidenav-end.component.scss'],
+    standalone: true,
+    imports: [SidenavEndDirective],
 })
 export class SidenavEndComponent implements OnInit, OnDestroy {
   @ViewChild(SidenavEndDirective) overlay: SidenavEndDirective;
@@ -42,9 +44,7 @@ export class SidenavEndComponent implements OnInit, OnDestroy {
     this._sidenavEndService.onOverlayAction.subscribe((overlay) => {
       switch (overlay.action) {
         case 'open':
-          setTimeout(() => {
             this.onOpenAction(overlay);
-          }, 100);
           break;
         case 'update':
           this.updateRef(overlay.data);
@@ -81,7 +81,6 @@ export class SidenavEndComponent implements OnInit, OnDestroy {
   }
 
   private onOpenAction(overlay: PayloadSidenavEnd) {
-    console.log(overlay);
     this.overlaySelected = overlay.component;
     const viewContainerRef = this.overlay.viewContainer;
     this.overlayAction.emit(true);
@@ -100,11 +99,7 @@ export class SidenavEndComponent implements OnInit, OnDestroy {
     });
 
     if (overlay.data) {
-      console.log('aqui');
       this.ref.instance.data = overlay.data;
-      console.log(' this.ref', this.ref);
-      //this.updateRef(overlay.data);
-      //this.ref.setInput('data', overlay.data);
         this.cdRef.detectChanges();
     }
     this.cdRef.detectChanges();

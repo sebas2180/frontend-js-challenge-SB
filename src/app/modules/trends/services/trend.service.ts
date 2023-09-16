@@ -9,6 +9,11 @@ import { GetAllTrendsResponse } from '../models/get-all-trends-response.model';
 import { TrendResponse } from '../models/trend-response.model';
 import { TrendProvider } from '../models/trend-provider.model';
 import { TrendRequest } from '../models/trend-request.model';
+import { TrendMsgAction } from '../models/trend-msg-action.model';
+import { TrendMsgActionEnum } from '../enums/trend-msg-actions.enum';
+import { MatSnackBar } from '@angular/material/snack-bar';
+import { SidenavEndService } from '../../sidenav-end/services/sidenav-end.service';
+import { Overlay } from '../../sidenav-end/enums/overlay.enum';
 
 @Injectable()
 export class TrendService {
@@ -16,7 +21,12 @@ export class TrendService {
 
 
 
-  constructor(private httpClient: HttpClient) {}
+  constructor(
+    private httpClient: HttpClient,
+    private snack: MatSnackBar,
+    private _sidenavEndService: SidenavEndService,
+    
+    ) {}
 
   public getAll(): Observable<Trend[]> {
     return this.httpClient
@@ -54,5 +64,28 @@ export class TrendService {
       title: trendResponse.title,
       url: trendResponse.url,
     };
+  }
+
+   async manageTrendAction(message: TrendMsgAction): Promise<void> {
+    switch(message.type) {
+      case TrendMsgActionEnum.SNACKBAR:
+        this.snack.open(
+          message.message, null,
+          {duration: 5000, verticalPosition: 'top'},
+        );
+        break;
+      case TrendMsgActionEnum.SUCCESS_DIALOG:
+        this.snack.open(
+          message.message, null,
+          {duration: 5000, verticalPosition: 'top'},
+        );
+        // Cierro el sidenav
+        this._sidenavEndService.overlayActionSource.next({
+          action: 'remove',
+          component: Overlay.ALL,
+          closeFirstLevel: true,
+        });
+        break;
+    }
   }
 }
