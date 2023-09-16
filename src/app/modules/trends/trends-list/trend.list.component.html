@@ -2,7 +2,6 @@
     <a class="trend__link" routerLink="/trends/{{ trend.id }}">
       <figure class="trend__figure">
         <img 
-            *ngIf="trend?.image" 
             class="trend__image" 
             [src]="trend.image" 
             [alt]="trend.title" 
