@@ -16,6 +16,7 @@ import { ConfirmDialogComponent } from '../../dialogs/components/confirm-dialog/
 import { TrendMsgAction } from '../models/trend-msg-action.model';
 import { TrendService } from '../services/trend.service';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
+import { environment } from 'src/environments/environment';
 
 @Component({
     selector: 'app-trend-detail',
@@ -38,6 +39,8 @@ export class TrendDetailComponent implements OnInit, OnDestroy{
 
   subscriptions: Subscription[] = [];
 
+  // Assets
+  srcDefault = environment.default_image;
   constructor(
     private store: Store,
     private _sidenavEndService: SidenavEndService,
@@ -96,5 +99,8 @@ export class TrendDetailComponent implements OnInit, OnDestroy{
         }
       }),
     );
+  }
+  doSomethingOnError(evt: any) {
+    evt.target.src = this.srcDefault;
   }
 }

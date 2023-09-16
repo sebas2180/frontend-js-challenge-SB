@@ -12,7 +12,12 @@
         <img src="assets/Iconos/Actions/delete.svg" alt="Borrar noticia" />
       </button>
     </div>
-    <img ngIf="trend?.image" class="trend__image" [src]="trend.image" alt="trend.title" loading="lazy"/>
+    <img 
+      class="trend__image" 
+      [src]="trend.image" 
+      alt="trend.title" 
+      loading="lazy"
+      (error)="doSomethingOnError($event)"/>
   </header>
   <div class="trend__content">
     <h2 class="trend__title">

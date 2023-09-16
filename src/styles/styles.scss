@@ -13,6 +13,11 @@
 
 @import 'base/elements';
 
+.mat-sidenav-content {
+    height: 100vh !important;
+    height: 100dvh !important;
+    overflow-y: auto;
+}
 .mat-drawer.mat-drawer-end {
     background-color: #ffff;
     width: 100vw;
