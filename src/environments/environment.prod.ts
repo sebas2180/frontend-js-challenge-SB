@@ -2,7 +2,7 @@
 const avantioAPIHost =  'https://challenge.avantio.pro';
 
 export const environment = {
-  name: 'default',
+  name: 'challange.avantio',
   production: true,
   avantioAPIAuthToken: 'ppr2kymzk75od7wtq0up2',
   hmr: false,

@@ -5,7 +5,7 @@ import { environment as defaultEnvironment } from './environment.default';
 
 export const environment = {
   ...defaultEnvironment,
-  production: false,
+  hmr: false,
   avantioAPIHost: 'https://challenge.avantio.pro',
   avantioAPIAuthToken: 'ppr2kymzk75od7wtq0up2',
 };
