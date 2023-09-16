@@ -19,6 +19,7 @@
     <header class="app-header">
     <a [routerLink]="'/'">
       <img
+        loading="lazy"
         *ngIf="isSmallScreen$ | async"
         class="app-logo"
         src="assets/Logos/aTrendsPRO.svg"

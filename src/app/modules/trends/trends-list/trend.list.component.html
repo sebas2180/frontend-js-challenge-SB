@@ -1,7 +1,14 @@
 <article class="trend" *ngFor="let trend of trends$ | async">
     <a class="trend__link" routerLink="/trends/{{ trend.id }}">
       <figure class="trend__figure">
-        <img class="trend__image" [src]="trend.image" [alt]="trend.title" />
+        <img 
+            *ngIf="trend?.image" 
+            class="trend__image" 
+            [src]="trend.image" 
+            [alt]="trend.title" 
+            loading="lazy"
+            (error)="doSomethingOnError($event)"
+            />
         <figcaption class="trend__title">
           <h2>{{ trend.title }}</h2>
         </figcaption>

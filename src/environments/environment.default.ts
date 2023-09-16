@@ -10,6 +10,7 @@ export const environment = {
   app:'challenge-avantio',
   app_name:'Challenge-Avantio',
   color: '#f45c44',
+  default_image: '../assets/img/default_img.PNG',
 
 
   // Common
