@@ -5,17 +5,20 @@ import { Overlay } from 'src/app/modules/sidenav-end/enums/overlay.enum';
 import { SidenavEndService } from 'src/app/modules/sidenav-end/services/sidenav-end.service';
 import { createOneTrend, updateOneTrend } from '../store/actions/trend-crud.actions';
 import { TrendRequest } from '../models/trend-request.model';
+import { MatSelectModule, MatSelectChange } from '@angular/material/select';
 import { Trend } from '../models/trend.model';
 import { actionRequireTrendEditState, updateLoaderUpdateState, updateMessageTrendState } from '../store/actions/trends-list-page.actions';
-import { Subscription, take } from 'rxjs';
+import { Subscription, } from 'rxjs';
 import { selectactionRequireTrendState, selectIsLoadingUpdateState, selectMessageState } from '../store/reducers';
 import { TrendActionEnum } from '../enums/trend-actions.enum';
 import { AppProgressBarComponent } from '../../core/components/app-progress-bar/app-progress-bar.component';
-import { NgIf, NgClass, AsyncPipe } from '@angular/common';
+import { NgIf, NgClass, AsyncPipe, NgFor } from '@angular/common';
 import { AppButtonComponent } from '../../core/components/app-button/app-button.component';
 import { TrendMsgAction } from '../models/trend-msg-action.model';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { TrendService } from '../services/trend.service';
+import { MatOptionModule } from '@angular/material/core';
+import { TrendProvider } from '../models/trendProvider.model';
 
 /*
   He generado el formulario de forma estática, pero para con un poco más de tiempo se puede levantar las opciones del formGroup de un json/api,
@@ -33,10 +36,13 @@ import { TrendService } from '../services/trend.service';
         FormsModule,
         ReactiveFormsModule,
         NgIf,
+        NgFor,
         NgClass,
         AppProgressBarComponent,
         AsyncPipe,
         MatSnackBarModule,
+        MatOptionModule,
+        MatSelectModule
     ],
 })
 export class TrendEditComponent implements OnInit, OnDestroy {
@@ -44,10 +50,11 @@ export class TrendEditComponent implements OnInit, OnDestroy {
   isEditTrend = false;
 
   trendEditionGroup: FormGroup= new FormGroup({
-    url: new FormControl(null),
-    provider: new FormControl(null),
-    title: new FormControl(null),
-    body: new FormControl(null),
+    url: new FormControl(null, Validators.compose([Validators.required])),
+    provider: new FormControl(null, Validators.compose([Validators.required])),
+    title: new FormControl(null, Validators.compose([Validators.required])),
+    body: new FormControl(null, Validators.compose([Validators.required])),
+    image: new FormControl(null, Validators.compose([Validators.required])),
   })
 
   messageState$ = this.store.select(selectMessageState);
@@ -58,6 +65,12 @@ export class TrendEditComponent implements OnInit, OnDestroy {
   isLoadingUpdate!: boolean;
 
   subscriptions: Subscription[] = [];
+
+  providerOptions: TrendProvider[] = [
+    { id: 'elpais', svg: 'assets/Logos/El_Pais.svg', name: 'El País'},
+    { id: 'elmundo', svg: 'assets/Logos/El_Mundo.svg', name: 'El Mundo'},
+  ];
+  trendProviderSelected: TrendProvider = null;
   constructor(
     private _sidenavEndService : SidenavEndService,
     private store: Store,
@@ -78,6 +91,9 @@ export class TrendEditComponent implements OnInit, OnDestroy {
       component: Overlay.EDIT_TREND,
     });
   }
+  changeProvider(event: MatSelectChange) {
+    if (event?.value) this.setProviderItem(event.value);
+  }
   saveTrend(): void {
     if (this.isLoadingUpdate) return;
     if (this.trendEditionGroup.invalid) {
@@ -85,7 +101,7 @@ export class TrendEditComponent implements OnInit, OnDestroy {
       this.cdRef.detectChanges();
       return;
     }
-    
+
     this.store.dispatch(updateLoaderUpdateState({ isLoadingUpdate: true }));
 
     if (!this.isEditTrend) {
@@ -93,7 +109,8 @@ export class TrendEditComponent implements OnInit, OnDestroy {
         url: this.trendEditionGroup.get('url').value,
         provider: this.trendEditionGroup.get('provider').value,
         body: this.trendEditionGroup.get('body').value,
-        title: this.trendEditionGroup.get('title').value
+        title: this.trendEditionGroup.get('title').value,
+        image: this.trendEditionGroup.get('image').value,
       };
       this.store.dispatch(createOneTrend({trend: newTrend}));
     } else {
@@ -102,31 +119,33 @@ export class TrendEditComponent implements OnInit, OnDestroy {
       if (this.trendEditionGroup.get('provider').value !== this.data.trend.provider) editedTrend.provider= this.trendEditionGroup.get('provider').value;
       if (this.trendEditionGroup.get('body').value !== this.data.trend.body) editedTrend.body= this.trendEditionGroup.get('body').value;
       if (this.trendEditionGroup.get('title').value !== this.data.trend.title) editedTrend.title= this.trendEditionGroup.get('title').value;
+      if (this.trendEditionGroup.get('title').value !== this.data.trend.image) editedTrend.image= this.trendEditionGroup.get('image').value;
       this.store.dispatch(updateOneTrend({trend: editedTrend, id: this.data.trend.id}));
     }
     this.cdRef.detectChanges();
   }
   private setForm(): void {
     this.isEditTrend = this.data && this.data['trend'] !== undefined;
-    !this.isEditTrend ? this.addControls() : this.setValues();
-  }
-
-  private addControls(): void {
-    this.trendEditionGroup.get('url').addValidators(Validators.required);
-    this.trendEditionGroup.get('title').addValidators(Validators.required);
-    this.trendEditionGroup.get('provider').addValidators(Validators.required);
-    this.trendEditionGroup.get('body').addValidators(Validators.required);
+    if (this.isEditTrend) this.setValues();
   }
   private setValues(): void {
     if (this.data.trend.url) this.trendEditionGroup.get('url').setValue(this.data.trend.url);
-    if (this.data.trend.provider) this.trendEditionGroup.get('provider').setValue(this.data.trend.provider);
+    if (this.data.trend.provider) {
+      this.trendEditionGroup.get('provider').setValue(this.data.trend.provider);
+      this.setProviderItem(this.data.trend.provider);
+    }
     if (this.data.trend.body) this.trendEditionGroup.get('body').setValue(this.data.trend.body);
     if (this.data.trend.title) this.trendEditionGroup.get('title').setValue(this.data.trend.title);
+    if (this.data.trend.image) this.trendEditionGroup.get('image').setValue(this.data.trend.image);
+  }
+  private setProviderItem(id: string): void {
+    this.trendProviderSelected = this.providerOptions.find((provider: TrendProvider) => provider.id === id);
+    this.cdRef.detectChanges();
   }
   private initSubscriptions() : void {
     this.subscriptions.push(
       this.isLoadingUpdate$.subscribe((loader: boolean) => {
-        // Si está cargando, bloqueo el formulario 
+        // Si está cargando, bloqueo el formulario
         loader ? this.trendEditionGroup.disable() : this.trendEditionGroup.enable();
 
         this.isLoadingUpdate = loader;

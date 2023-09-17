@@ -30,42 +30,61 @@
       <form [formGroup]="trendEditionGroup">
         <div class="form-group mb-3" *ngIf="trendEditionGroup?.get('url')">
           <label>URL</label>
-          <input 
-              type="text" 
-              class="form-control" 
+          <input
+              type="text"
+              class="form-control"
               formControlName="url"
               placeholder="Ingrese una url.."
-              [ngClass]="{ 'is-invalid': trendEditionGroup.get('url').hasError('required') && trendEditionGroup.get('url').touched }"
+              [ngClass]="{ 'is-invalid': trendEditionGroup.get('url').hasError('required') &&
+                            trendEditionGroup.get('url').touched }"
               />
         </div>
         <div class="form-group mb-3" *ngIf="trendEditionGroup?.get('provider')">
           <label>Autor</label>
-          <input 
-              type="text" 
-              class="form-control" 
-              formControlName="provider"
-              placeholder="Ingrese el nombre del provider.."
-              [ngClass]="{ 'is-invalid':trendEditionGroup.get('provider').hasError('required') && trendEditionGroup.get('provider').touched }"
-              />
+          <mat-select
+            class="form-control"
+            formControlName="provider"
+            (selectionChange)="changeProvider($event)"
+            placeholder="Ingrese el nombre del provider.."
+            [ngClass]="{ 'is-invalid':trendEditionGroup.get('provider').hasError('required') &&
+                        trendEditionGroup.get('provider').touched }">
+            <mat-option *ngFor="let option of providerOptions"
+              [value]="option.id">
+              <img [src]="option.svg" />
+            </mat-option>
+          <mat-select-trigger *ngIf="trendProviderSelected">
+            <img [src]="trendProviderSelected.svg" />
+          </mat-select-trigger>
+          </mat-select>
         </div>
         <div class="form-group mb-3" *ngIf="trendEditionGroup?.get('title')">
           <label>Título</label>
-          <input 
-            type="text" 
-            class="form-control" 
+          <input
+            type="text"
+            class="form-control"
             placeholder="Ingrese un titulo.."
             formControlName="title"
             [ngClass]="{ 'is-invalid': trendEditionGroup.get('title').hasError('required') && trendEditionGroup.get('title').touched }"
             />
         </div>
+        <div class="form-group mb-3" *ngIf="trendEditionGroup?.get('image')">
+          <label>Imagen</label>
+          <input
+            type="text"
+            class="form-control"
+            placeholder="Ingrese la url de la imagen.."
+            formControlName="image"
+            [ngClass]="{ 'is-invalid': trendEditionGroup.get('image').hasError('required') && trendEditionGroup.get('image').touched }"
+            />
+        </div>
         <div class="form-group mb-3" *ngIf="trendEditionGroup?.get('body')">
           <label>Contenido</label>
-          <textarea 
-              name="textarea" 
-              class="form-control"  
+          <textarea
+              name="textarea"
+              class="form-control"
               placeholder="Escriba el body.."
-              rows="10" 
-              cols="50" 
+              rows="10"
+              cols="50"
               formControlName="body"
               [ngClass]="{ 'is-invalid': trendEditionGroup.get('body').hasError('required')  && trendEditionGroup.get('body').touched }"
               >
