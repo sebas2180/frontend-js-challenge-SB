@@ -24,6 +24,58 @@
   .trendEdit-Content__Container {
     form {
       .form-group {
+      }
+      .media {
+        position: relative;
+        width: 110px;
+        height: 110px;
+        overflow: hidden;
+        border: 1px solid lightgray;
+        border-radius: 9px;
+        display: flex;
+        align-items: center;
+        margin: 4px 6px 4px 0;
+        justify-content: center;
+        background-color: rgba(255, 255, 255, 0.7);
+        .trend-image {
+          img {
+            max-width: 100%;
+            height: 100%;
+          }
+        }
+        .shadow {
+          position: absolute;
+          width: 100%;
+          height: 100%;
+          opacity: 0;
+          background: linear-gradient(10deg, transparent, transparent 45%, rgba(0, 0, 0, 0.18) 75%, rgba(0, 0, 0, 0.4));
+        }
+        .remove {
+          position: absolute;
+          top: 5px;
+          right: 5px;
+          color: white;
+          opacity: 0;
+          &:hover {
+            cursor: pointer;
+            opacity: 0.8;
+          }
+          i {
+            font-size: 20px;
+          }
+        }
+      
+        &:hover {
+          cursor: pointer;
+          .remove {
+            opacity: 1;
+          }
+          .shadow {
+            opacity: 1;
+          }
+        }
+      }
+      
         label {
           font-weight: 500;
         }
@@ -33,7 +85,6 @@
       }
     }
   }
-}
 ::ng-deep .mdc-text-field--outlined .mdc-notched-outline .mdc-notched-outline__trailing {
   border-color: red;
 }
