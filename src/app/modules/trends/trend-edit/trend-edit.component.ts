@@ -1,4 +1,4 @@
-import { Component, Input, ChangeDetectorRef, OnInit, OnDestroy, ChangeDetectionStrategy, NgZone } from '@angular/core';
+import { Component, Input, OnInit, OnDestroy, NgZone } from '@angular/core';
 import { FormControl, FormGroup, Validators, FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { Store } from '@ngrx/store';
 import { Overlay } from 'src/app/modules/sidenav-end/enums/overlay.enum';
@@ -29,7 +29,6 @@ import { TrendProvider } from '../models/trendProvider.model';
     selector: 'app-trend-edit',
     templateUrl: './trend-edit.component.html',
     styleUrls: ['./trend-edit.component.scss'],
-    changeDetection: ChangeDetectionStrategy.OnPush,
     standalone: true,
     imports: [
         AppButtonComponent,
@@ -71,10 +70,10 @@ export class TrendEditComponent implements OnInit, OnDestroy {
     { id: 'elmundo', svg: 'assets/Logos/El_Mundo.svg', name: 'El Mundo'},
   ];
   trendProviderSelected: TrendProvider = null;
+
   constructor(
     private _sidenavEndService : SidenavEndService,
     private store: Store,
-    private cdRef: ChangeDetectorRef,
     private _trendService: TrendService,
     ) {}
   ngOnDestroy(): void {
@@ -83,7 +82,6 @@ export class TrendEditComponent implements OnInit, OnDestroy {
   ngOnInit(): void {
     this.setForm();
     this.initSubscriptions();
-    this.cdRef.detectChanges();
   }
   close(): void {
     this._sidenavEndService.overlayActionSource.next({
@@ -98,7 +96,6 @@ export class TrendEditComponent implements OnInit, OnDestroy {
     if (this.isLoadingUpdate) return;
     if (this.trendEditionGroup.invalid) {
       this.trendEditionGroup.markAllAsTouched();
-      this.cdRef.detectChanges();
       return;
     }
 
@@ -122,7 +119,12 @@ export class TrendEditComponent implements OnInit, OnDestroy {
       if (this.trendEditionGroup.get('title').value !== this.data.trend.image) editedTrend.image= this.trendEditionGroup.get('image').value;
       this.store.dispatch(updateOneTrend({trend: editedTrend, id: this.data.trend.id}));
     }
-    this.cdRef.detectChanges();
+  }
+  openImage() {
+    window.open(this.trendEditionGroup.get('image').value, '_blank');
+  }
+  removeImage() {
+    this.trendEditionGroup.get('image').setValue(null);
   }
   private setForm(): void {
     this.isEditTrend = this.data && this.data['trend'] !== undefined;
@@ -140,7 +142,6 @@ export class TrendEditComponent implements OnInit, OnDestroy {
   }
   private setProviderItem(id: string): void {
     this.trendProviderSelected = this.providerOptions.find((provider: TrendProvider) => provider.id === id);
-    this.cdRef.detectChanges();
   }
   private initSubscriptions() : void {
     this.subscriptions.push(
